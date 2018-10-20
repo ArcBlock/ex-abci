@@ -1,0 +1,27 @@
+language: elixir
+elixir: 1.6
+otp_release: 21.0
+branches:
+  only:
+    - master
+before_install:
+  - sudo apt-get install -y rpm2cpio wget
+  - nvm install 10
+install:
+  - epmd -daemon
+script: make travis
+before_script: make travis-init
+before_deploy: make travis-deploy
+deploy:
+  - provider: releases
+    skip_cleanup: true
+    api_key:
+      secure:
+    file_glob: true
+    file: src/_build/releases/*
+    on:
+      repo: ArcBlock/ex_abci
+      branch: master
+notifications:
+  slack:
+    secure:
