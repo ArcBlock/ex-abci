@@ -1,4 +1,4 @@
-defmodule ChangeMe.MixProject do
+defmodule ExAbci.MixProject do
   use Mix.Project
 
   @version File.cwd!() |> Path.join("../version") |> File.read!() |> String.trim()
@@ -22,7 +22,8 @@ defmodule ChangeMe.MixProject do
   defp deps do
     [
       # Normal depedencies
-      {:jason, "~> 1.0"},
+      {:google_protos, "~> 0.1"},
+      {:protobuf, "~> 0.5.3"},
 
       # utility tools for error logs and metrics
       {:statix, ">= 0.0.0"},
@@ -30,9 +31,6 @@ defmodule ChangeMe.MixProject do
       {:recon, "~> 2.3.2"},
       {:recon_ex, "~> 0.9.1"},
       {:sentry, "~> 6.2.0"},
-
-      # deployment
-      {:distillery, "~> 1.5", runtime: false},
 
       # dev & test
       {:benchee, "~> 0.13.0", only: [:dev, :test]},
@@ -42,7 +40,7 @@ defmodule ChangeMe.MixProject do
       {:excheck, "~> 0.5", only: :test},
       {:mox, "~> 0.3", only: :test},
       {:pre_commit_hook, "~> 1.2", only: [:dev, :test]},
-      {:triq, github: "triqng/triq", only: :test}
+      {:triq, "~> 1.3", only: :test}
     ]
   end
 end
