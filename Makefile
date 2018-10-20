@@ -19,7 +19,7 @@ init: submodule install dep
 	@brew install protobuf
 	@mix escript.install hex protobuf
 
-travis-init: submodule extract-deps
+travis-init: submodule
 	@echo "Initialize software required for travis (normally ubuntu software)"
 
 install:
