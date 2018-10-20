@@ -1,0 +1,9 @@
+{application,ex_abci,
+             [{applications,[kernel,stdlib,elixir,logger,protobuf,
+                             pre_commit_hook,credo,ex_doc,google_protos]},
+              {description,"ex_abci"},
+              {modules,[]},
+              {registered,[]},
+              {vsn,"0.1.0"},
+              {extra_applications,[logger]},
+              {mod,{'Elixir.OcapRpc.Application',[]}}]}.

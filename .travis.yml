@@ -3,25 +3,20 @@ elixir: 1.6
 otp_release: 21.0
 branches:
   only:
-    - master
-before_install:
-  - sudo apt-get install -y rpm2cpio wget
-  - nvm install 10
+  - master
 install:
-  - epmd -daemon
+- epmd -daemon
 script: make travis
 before_script: make travis-init
 before_deploy: make travis-deploy
 deploy:
+  matrix:
   - provider: releases
     skip_cleanup: true
     api_key:
-      secure:
+      secure: FGq1JePaSzNX9nnhkrZ18hvOkr9dpm6pMVuNvZq49IyzomGarejyFFCiYXFLpGAvgy95VR4A2htXjfx6HO5RzY4ulW2HfNqO48xEyd5orgOQI1cyLAwGTD5ohz5G1HReLwBEctSOvKtyQJu1VKZis4GuKErarGPVwv2Q5pSlhSdxujsazTTp46MyaBaf1jUX/5CSV0300bwYwQM69nyshW1QR9Q16Zo3TpmqadVVzR/MiuEzQC77nP0Gu0jatF6xOgv99GiCjBx3f+/VFxv7qFCytTp/ZinJIgnFptJOQ/pNe5MyaTDOlIHHoQeh1M3vgJdn5A6tDKVsBWVWG2GhBSk/XXncOkAfy5sxWVFm8qHLJbafVq71ZaKawrqU5ykrWwpbmfVVkslRYt275sjnrLtd9VE5jQn2jRct6lUYzdZ/vN2UaQR0dxouF45YGNkxtagTLEEV2RM0M2siEDjWn1TDqVc7OWZ4eTf+5hLiyhfo/Q/nY06dFyF1xAvx08q20TLcyQ1IydS5l/hMA+AvlZvdfREZjIpBfN9Oj+7KEvCn99izdKTdrKdgB7txC/T71nnue+ZEwZ2shZCDv0mQflmyqJY8kQKUOKO8FJj8vFJ3oW6LEapsBCuuYdaxEdpe2X0YiTamACVxlqTOD7IOXNbicT4P0HZhRsZNbZpIczA=
     file_glob: true
     file: src/_build/releases/*
     on:
       repo: ArcBlock/ex_abci
       branch: master
-notifications:
-  slack:
-    secure:
