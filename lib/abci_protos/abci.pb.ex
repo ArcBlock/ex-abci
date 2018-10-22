@@ -1,4 +1,4 @@
-defmodule Types.Request do
+defmodule Abci.Request do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -8,20 +8,20 @@ defmodule Types.Request do
   defstruct [:value]
 
   oneof :value, 0
-  field :echo, 2, type: Types.RequestEcho, oneof: 0
-  field :flush, 3, type: Types.RequestFlush, oneof: 0
-  field :info, 4, type: Types.RequestInfo, oneof: 0
-  field :set_option, 5, type: Types.RequestSetOption, oneof: 0
-  field :init_chain, 6, type: Types.RequestInitChain, oneof: 0
-  field :query, 7, type: Types.RequestQuery, oneof: 0
-  field :begin_block, 8, type: Types.RequestBeginBlock, oneof: 0
-  field :check_tx, 9, type: Types.RequestCheckTx, oneof: 0
-  field :deliver_tx, 19, type: Types.RequestDeliverTx, oneof: 0
-  field :end_block, 11, type: Types.RequestEndBlock, oneof: 0
-  field :commit, 12, type: Types.RequestCommit, oneof: 0
+  field :echo, 2, type: Abci.RequestEcho, oneof: 0
+  field :flush, 3, type: Abci.RequestFlush, oneof: 0
+  field :info, 4, type: Abci.RequestInfo, oneof: 0
+  field :set_option, 5, type: Abci.RequestSetOption, oneof: 0
+  field :init_chain, 6, type: Abci.RequestInitChain, oneof: 0
+  field :query, 7, type: Abci.RequestQuery, oneof: 0
+  field :begin_block, 8, type: Abci.RequestBeginBlock, oneof: 0
+  field :check_tx, 9, type: Abci.RequestCheckTx, oneof: 0
+  field :deliver_tx, 19, type: Abci.RequestDeliverTx, oneof: 0
+  field :end_block, 11, type: Abci.RequestEndBlock, oneof: 0
+  field :commit, 12, type: Abci.RequestCommit, oneof: 0
 end
 
-defmodule Types.RequestEcho do
+defmodule Abci.RequestEcho do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -33,14 +33,14 @@ defmodule Types.RequestEcho do
   field :message, 1, type: :string
 end
 
-defmodule Types.RequestFlush do
+defmodule Abci.RequestFlush do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   defstruct []
 end
 
-defmodule Types.RequestInfo do
+defmodule Abci.RequestInfo do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -52,7 +52,7 @@ defmodule Types.RequestInfo do
   field :version, 1, type: :string
 end
 
-defmodule Types.RequestSetOption do
+defmodule Abci.RequestSetOption do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -66,27 +66,27 @@ defmodule Types.RequestSetOption do
   field :value, 2, type: :string
 end
 
-defmodule Types.RequestInitChain do
+defmodule Abci.RequestInitChain do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
           time: Google.Protobuf.Timestamp.t(),
           chain_id: String.t(),
-          consensus_params: Types.ConsensusParams.t(),
-          validators: [Types.ValidatorUpdate.t()],
+          consensus_params: Abci.ConsensusParams.t(),
+          validators: [Abci.ValidatorUpdate.t()],
           app_state_bytes: String.t()
         }
   defstruct [:time, :chain_id, :consensus_params, :validators, :app_state_bytes]
 
   field :time, 1, type: Google.Protobuf.Timestamp
   field :chain_id, 2, type: :string
-  field :consensus_params, 3, type: Types.ConsensusParams
-  field :validators, 4, repeated: true, type: Types.ValidatorUpdate
+  field :consensus_params, 3, type: Abci.ConsensusParams
+  field :validators, 4, repeated: true, type: Abci.ValidatorUpdate
   field :app_state_bytes, 5, type: :bytes
 end
 
-defmodule Types.RequestQuery do
+defmodule Abci.RequestQuery do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -104,25 +104,25 @@ defmodule Types.RequestQuery do
   field :prove, 4, type: :bool
 end
 
-defmodule Types.RequestBeginBlock do
+defmodule Abci.RequestBeginBlock do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
           hash: String.t(),
-          header: Types.Header.t(),
-          last_commit_info: Types.LastCommitInfo.t(),
-          byzantine_validators: [Types.Evidence.t()]
+          header: Abci.Header.t(),
+          last_commit_info: Abci.LastCommitInfo.t(),
+          byzantine_validators: [Abci.Evidence.t()]
         }
   defstruct [:hash, :header, :last_commit_info, :byzantine_validators]
 
   field :hash, 1, type: :bytes
-  field :header, 2, type: Types.Header
-  field :last_commit_info, 3, type: Types.LastCommitInfo
-  field :byzantine_validators, 4, repeated: true, type: Types.Evidence
+  field :header, 2, type: Abci.Header
+  field :last_commit_info, 3, type: Abci.LastCommitInfo
+  field :byzantine_validators, 4, repeated: true, type: Abci.Evidence
 end
 
-defmodule Types.RequestCheckTx do
+defmodule Abci.RequestCheckTx do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -134,7 +134,7 @@ defmodule Types.RequestCheckTx do
   field :tx, 1, type: :bytes
 end
 
-defmodule Types.RequestDeliverTx do
+defmodule Abci.RequestDeliverTx do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -146,7 +146,7 @@ defmodule Types.RequestDeliverTx do
   field :tx, 1, type: :bytes
 end
 
-defmodule Types.RequestEndBlock do
+defmodule Abci.RequestEndBlock do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -158,14 +158,14 @@ defmodule Types.RequestEndBlock do
   field :height, 1, type: :int64
 end
 
-defmodule Types.RequestCommit do
+defmodule Abci.RequestCommit do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   defstruct []
 end
 
-defmodule Types.Response do
+defmodule Abci.Response do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -175,21 +175,21 @@ defmodule Types.Response do
   defstruct [:value]
 
   oneof :value, 0
-  field :exception, 1, type: Types.ResponseException, oneof: 0
-  field :echo, 2, type: Types.ResponseEcho, oneof: 0
-  field :flush, 3, type: Types.ResponseFlush, oneof: 0
-  field :info, 4, type: Types.ResponseInfo, oneof: 0
-  field :set_option, 5, type: Types.ResponseSetOption, oneof: 0
-  field :init_chain, 6, type: Types.ResponseInitChain, oneof: 0
-  field :query, 7, type: Types.ResponseQuery, oneof: 0
-  field :begin_block, 8, type: Types.ResponseBeginBlock, oneof: 0
-  field :check_tx, 9, type: Types.ResponseCheckTx, oneof: 0
-  field :deliver_tx, 10, type: Types.ResponseDeliverTx, oneof: 0
-  field :end_block, 11, type: Types.ResponseEndBlock, oneof: 0
-  field :commit, 12, type: Types.ResponseCommit, oneof: 0
+  field :exception, 1, type: Abci.ResponseException, oneof: 0
+  field :echo, 2, type: Abci.ResponseEcho, oneof: 0
+  field :flush, 3, type: Abci.ResponseFlush, oneof: 0
+  field :info, 4, type: Abci.ResponseInfo, oneof: 0
+  field :set_option, 5, type: Abci.ResponseSetOption, oneof: 0
+  field :init_chain, 6, type: Abci.ResponseInitChain, oneof: 0
+  field :query, 7, type: Abci.ResponseQuery, oneof: 0
+  field :begin_block, 8, type: Abci.ResponseBeginBlock, oneof: 0
+  field :check_tx, 9, type: Abci.ResponseCheckTx, oneof: 0
+  field :deliver_tx, 10, type: Abci.ResponseDeliverTx, oneof: 0
+  field :end_block, 11, type: Abci.ResponseEndBlock, oneof: 0
+  field :commit, 12, type: Abci.ResponseCommit, oneof: 0
 end
 
-defmodule Types.ResponseException do
+defmodule Abci.ResponseException do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -201,7 +201,7 @@ defmodule Types.ResponseException do
   field :error, 1, type: :string
 end
 
-defmodule Types.ResponseEcho do
+defmodule Abci.ResponseEcho do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -213,14 +213,14 @@ defmodule Types.ResponseEcho do
   field :message, 1, type: :string
 end
 
-defmodule Types.ResponseFlush do
+defmodule Abci.ResponseFlush do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   defstruct []
 end
 
-defmodule Types.ResponseInfo do
+defmodule Abci.ResponseInfo do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -238,7 +238,7 @@ defmodule Types.ResponseInfo do
   field :last_block_app_hash, 4, type: :bytes
 end
 
-defmodule Types.ResponseSetOption do
+defmodule Abci.ResponseSetOption do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -254,21 +254,21 @@ defmodule Types.ResponseSetOption do
   field :info, 4, type: :string
 end
 
-defmodule Types.ResponseInitChain do
+defmodule Abci.ResponseInitChain do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          consensus_params: Types.ConsensusParams.t(),
-          validators: [Types.ValidatorUpdate.t()]
+          consensus_params: Abci.ConsensusParams.t(),
+          validators: [Abci.ValidatorUpdate.t()]
         }
   defstruct [:consensus_params, :validators]
 
-  field :consensus_params, 1, type: Types.ConsensusParams
-  field :validators, 2, repeated: true, type: Types.ValidatorUpdate
+  field :consensus_params, 1, type: Abci.ConsensusParams
+  field :validators, 2, repeated: true, type: Abci.ValidatorUpdate
 end
 
-defmodule Types.ResponseQuery do
+defmodule Abci.ResponseQuery do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -294,7 +294,7 @@ defmodule Types.ResponseQuery do
   field :height, 9, type: :int64
 end
 
-defmodule Types.ResponseBeginBlock do
+defmodule Abci.ResponseBeginBlock do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -306,7 +306,7 @@ defmodule Types.ResponseBeginBlock do
   field :tags, 1, repeated: true, type: Common.KVPair
 end
 
-defmodule Types.ResponseCheckTx do
+defmodule Abci.ResponseCheckTx do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -330,7 +330,7 @@ defmodule Types.ResponseCheckTx do
   field :tags, 7, repeated: true, type: Common.KVPair
 end
 
-defmodule Types.ResponseDeliverTx do
+defmodule Abci.ResponseDeliverTx do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -354,23 +354,23 @@ defmodule Types.ResponseDeliverTx do
   field :tags, 7, repeated: true, type: Common.KVPair
 end
 
-defmodule Types.ResponseEndBlock do
+defmodule Abci.ResponseEndBlock do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          validator_updates: [Types.ValidatorUpdate.t()],
-          consensus_param_updates: Types.ConsensusParams.t(),
+          validator_updates: [Abci.ValidatorUpdate.t()],
+          consensus_param_updates: Abci.ConsensusParams.t(),
           tags: [Common.KVPair.t()]
         }
   defstruct [:validator_updates, :consensus_param_updates, :tags]
 
-  field :validator_updates, 1, repeated: true, type: Types.ValidatorUpdate
-  field :consensus_param_updates, 2, type: Types.ConsensusParams
+  field :validator_updates, 1, repeated: true, type: Abci.ValidatorUpdate
+  field :consensus_param_updates, 2, type: Abci.ConsensusParams
   field :tags, 3, repeated: true, type: Common.KVPair
 end
 
-defmodule Types.ResponseCommit do
+defmodule Abci.ResponseCommit do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -382,21 +382,21 @@ defmodule Types.ResponseCommit do
   field :data, 2, type: :bytes
 end
 
-defmodule Types.ConsensusParams do
+defmodule Abci.ConsensusParams do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          block_size: Types.BlockSize.t(),
-          evidence_params: Types.EvidenceParams.t()
+          block_size: Abci.BlockSize.t(),
+          evidence_params: Abci.EvidenceParams.t()
         }
   defstruct [:block_size, :evidence_params]
 
-  field :block_size, 1, type: Types.BlockSize
-  field :evidence_params, 2, type: Types.EvidenceParams
+  field :block_size, 1, type: Abci.BlockSize
+  field :evidence_params, 2, type: Abci.EvidenceParams
 end
 
-defmodule Types.BlockSize do
+defmodule Abci.BlockSize do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -410,7 +410,7 @@ defmodule Types.BlockSize do
   field :max_gas, 2, type: :int64
 end
 
-defmodule Types.EvidenceParams do
+defmodule Abci.EvidenceParams do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -422,21 +422,21 @@ defmodule Types.EvidenceParams do
   field :max_age, 1, type: :int64
 end
 
-defmodule Types.LastCommitInfo do
+defmodule Abci.LastCommitInfo do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
           round: integer,
-          votes: [Types.VoteInfo.t()]
+          votes: [Abci.VoteInfo.t()]
         }
   defstruct [:round, :votes]
 
   field :round, 1, type: :int32
-  field :votes, 2, repeated: true, type: Types.VoteInfo
+  field :votes, 2, repeated: true, type: Abci.VoteInfo
 end
 
-defmodule Types.Header do
+defmodule Abci.Header do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -446,7 +446,7 @@ defmodule Types.Header do
           time: Google.Protobuf.Timestamp.t(),
           num_txs: integer,
           total_txs: integer,
-          last_block_id: Types.BlockID.t(),
+          last_block_id: Abci.BlockID.t(),
           last_commit_hash: String.t(),
           data_hash: String.t(),
           validators_hash: String.t(),
@@ -480,7 +480,7 @@ defmodule Types.Header do
   field :time, 3, type: Google.Protobuf.Timestamp
   field :num_txs, 4, type: :int64
   field :total_txs, 5, type: :int64
-  field :last_block_id, 6, type: Types.BlockID
+  field :last_block_id, 6, type: Abci.BlockID
   field :last_commit_hash, 7, type: :bytes
   field :data_hash, 8, type: :bytes
   field :validators_hash, 9, type: :bytes
@@ -492,21 +492,21 @@ defmodule Types.Header do
   field :proposer_address, 15, type: :bytes
 end
 
-defmodule Types.BlockID do
+defmodule Abci.BlockID do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
           hash: String.t(),
-          parts_header: Types.PartSetHeader.t()
+          parts_header: Abci.PartSetHeader.t()
         }
   defstruct [:hash, :parts_header]
 
   field :hash, 1, type: :bytes
-  field :parts_header, 2, type: Types.PartSetHeader
+  field :parts_header, 2, type: Abci.PartSetHeader
 end
 
-defmodule Types.PartSetHeader do
+defmodule Abci.PartSetHeader do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -520,7 +520,7 @@ defmodule Types.PartSetHeader do
   field :hash, 2, type: :bytes
 end
 
-defmodule Types.Validator do
+defmodule Abci.Validator do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -534,35 +534,35 @@ defmodule Types.Validator do
   field :power, 3, type: :int64
 end
 
-defmodule Types.ValidatorUpdate do
+defmodule Abci.ValidatorUpdate do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          pub_key: Types.PubKey.t(),
+          pub_key: Abci.PubKey.t(),
           power: integer
         }
   defstruct [:pub_key, :power]
 
-  field :pub_key, 1, type: Types.PubKey
+  field :pub_key, 1, type: Abci.PubKey
   field :power, 2, type: :int64
 end
 
-defmodule Types.VoteInfo do
+defmodule Abci.VoteInfo do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          validator: Types.Validator.t(),
+          validator: Abci.Validator.t(),
           signed_last_block: boolean
         }
   defstruct [:validator, :signed_last_block]
 
-  field :validator, 1, type: Types.Validator
+  field :validator, 1, type: Abci.Validator
   field :signed_last_block, 2, type: :bool
 end
 
-defmodule Types.PubKey do
+defmodule Abci.PubKey do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -576,13 +576,13 @@ defmodule Types.PubKey do
   field :data, 2, type: :bytes
 end
 
-defmodule Types.Evidence do
+defmodule Abci.Evidence do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
           type: String.t(),
-          validator: Types.Validator.t(),
+          validator: Abci.Validator.t(),
           height: integer,
           time: Google.Protobuf.Timestamp.t(),
           total_voting_power: integer
@@ -590,30 +590,30 @@ defmodule Types.Evidence do
   defstruct [:type, :validator, :height, :time, :total_voting_power]
 
   field :type, 1, type: :string
-  field :validator, 2, type: Types.Validator
+  field :validator, 2, type: Abci.Validator
   field :height, 3, type: :int64
   field :time, 4, type: Google.Protobuf.Timestamp
   field :total_voting_power, 5, type: :int64
 end
 
-defmodule Types.ABCIApplication.Service do
+defmodule Abci.ABCIApplication.Service do
   @moduledoc false
-  use GRPC.Service, name: "types.ABCIApplication"
+  use GRPC.Service, name: "abci.ABCIApplication"
 
-  rpc :Echo, Types.RequestEcho, Types.ResponseEcho
-  rpc :Flush, Types.RequestFlush, Types.ResponseFlush
-  rpc :Info, Types.RequestInfo, Types.ResponseInfo
-  rpc :SetOption, Types.RequestSetOption, Types.ResponseSetOption
-  rpc :DeliverTx, Types.RequestDeliverTx, Types.ResponseDeliverTx
-  rpc :CheckTx, Types.RequestCheckTx, Types.ResponseCheckTx
-  rpc :Query, Types.RequestQuery, Types.ResponseQuery
-  rpc :Commit, Types.RequestCommit, Types.ResponseCommit
-  rpc :InitChain, Types.RequestInitChain, Types.ResponseInitChain
-  rpc :BeginBlock, Types.RequestBeginBlock, Types.ResponseBeginBlock
-  rpc :EndBlock, Types.RequestEndBlock, Types.ResponseEndBlock
+  rpc :Echo, Abci.RequestEcho, Abci.ResponseEcho
+  rpc :Flush, Abci.RequestFlush, Abci.ResponseFlush
+  rpc :Info, Abci.RequestInfo, Abci.ResponseInfo
+  rpc :SetOption, Abci.RequestSetOption, Abci.ResponseSetOption
+  rpc :DeliverTx, Abci.RequestDeliverTx, Abci.ResponseDeliverTx
+  rpc :CheckTx, Abci.RequestCheckTx, Abci.ResponseCheckTx
+  rpc :Query, Abci.RequestQuery, Abci.ResponseQuery
+  rpc :Commit, Abci.RequestCommit, Abci.ResponseCommit
+  rpc :InitChain, Abci.RequestInitChain, Abci.ResponseInitChain
+  rpc :BeginBlock, Abci.RequestBeginBlock, Abci.ResponseBeginBlock
+  rpc :EndBlock, Abci.RequestEndBlock, Abci.ResponseEndBlock
 end
 
-defmodule Types.ABCIApplication.Stub do
+defmodule Abci.ABCIApplication.Stub do
   @moduledoc false
-  use GRPC.Stub, service: Types.ABCIApplication.Service
+  use GRPC.Stub, service: Abci.ABCIApplication.Service
 end
