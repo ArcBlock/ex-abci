@@ -7,7 +7,7 @@ defmodule Counter.Application do
 
   def start(_type, _args) do
     children = [
-      Listener.child_spec(Counter.Server, 26658)
+      Listener.child_spec(Counter.Server)
     ]
 
     opts = [strategy: :one_for_one, name: Counter.Supervisor]
