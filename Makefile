@@ -52,7 +52,6 @@ travis: precommit
 
 travis-deploy:
 	@echo "Deploy the software by travis"
-	@make build-release
 	@make release
 
 clean: clean-api-docs
