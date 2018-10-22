@@ -1,4 +1,4 @@
-defmodule ExAbci.Server do
+defmodule Counter.Server do
   @moduledoc """
   Server to handle abci messages
   """
