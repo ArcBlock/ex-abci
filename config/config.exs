@@ -1,3 +1,4 @@
 use Mix.Config
 
-import_config "../apps/*/config/config.exs"
+config :ex_abci, port: 26657
+config :logger, level: :debug

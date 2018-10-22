@@ -52,7 +52,6 @@ travis: precommit
 
 travis-deploy:
 	@echo "Deploy the software by travis"
-	@make build-release
 	@make release
 
 clean: clean-api-docs
@@ -77,10 +76,11 @@ rebuild-deps:
 rebuild-proto:
 	@mkdir -p lib/abci_protos; mkdir -p /tmp/github.com/gogo/protobuf/gogoproto/;mkdir -p /tmp/github.com/tendermint/tendermint/libs/common;
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/abci/types/types.proto > /tmp/types.proto
+	@sed 's/package types/package abci/g' /tmp/types.proto > /tmp/abci.proto
 	@curl --silent https://raw.githubusercontent.com/gogo/protobuf/master/gogoproto/gogo.proto > /tmp/github.com/gogo/protobuf/gogoproto/gogo.proto
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/libs/common/types.proto > /tmp/github.com/tendermint/tendermint/libs/common/types.proto
 	@rm -rf ./lib/abci_protos/*
-	@protoc -I /tmp --elixir_out=plugins=grpc:./lib/abci_protos /tmp/types.proto
+	@protoc -I /tmp --elixir_out=plugins=grpc:./lib/abci_protos /tmp/abci.proto
 	@echo New protobuf files created for tendermint ABCI.
 
 include .makefiles/*.mk
