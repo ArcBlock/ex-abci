@@ -7,7 +7,7 @@ defmodule ExAbci.Listener do
   require Logger
 
   alias Abci.{Request, Response}
-  alias ExAbci.Varint
+  alias ExAbci.{Server, Varint}
 
   @behaviour :ranch_protocol
 
@@ -93,7 +93,15 @@ defmodule ExAbci.Listener do
         :ok = send_response(request, state)
 
       _ ->
-        response = apply(mod, :"handle_#{type}", [value])
+        handler = :"handle_#{type}"
+
+        response =
+          try do
+            apply(mod, handler, [value])
+          rescue
+            _ ->
+              apply(Server, handler, [value])
+          end
 
         case response do
           nil -> nil
