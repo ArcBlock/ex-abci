@@ -133,11 +133,15 @@ defmodule ExAbci.Listener do
         :ok = send_response(request, state)
 
       :echo ->
-        transport.send(socket, request)
+        :ok = send_response(request, state)
 
       _ ->
         response = apply(mod, :"handle_#{type}", [value])
-        :ok = send_response(%Response{value: {type, response}}, state)
+
+        case response do
+          nil -> nil
+          _ -> :ok = send_response(%Response{value: {type, response}}, state)
+        end
     end
 
     handle_requests(rest_requests, state)
