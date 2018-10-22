@@ -7,7 +7,7 @@ defmodule ExAbci.Listener do
   require Logger
 
   alias Abci.{Request, Response}
-  alias ExAbci.Varint
+  alias ExAbci.{Server, Varint}
 
   @behaviour :ranch_protocol
 
@@ -16,11 +16,11 @@ defmodule ExAbci.Listener do
     {:ok, :proc_lib.spawn_link(__MODULE__, :init, [{ref, socket, transport, opts}])}
   end
 
-  @spec start_listener(module(), pos_integer()) :: :supervisor.startchild_ret()
-  def start_listener(mod, port), do: apply(:ranch, :start_listener, gen_ranch_args(mod, port))
+  @spec start_listener(module()) :: :supervisor.startchild_ret()
+  def start_listener(mod), do: apply(:ranch, :start_listener, gen_ranch_args(mod))
 
-  @spec start_listener(module(), pos_integer()) :: :supervisor.child_spec()
-  def child_spec(mod, port), do: apply(:ranch, :child_spec, gen_ranch_args(mod, port))
+  @spec child_spec(module()) :: :supervisor.child_spec()
+  def child_spec(mod), do: apply(:ranch, :child_spec, gen_ranch_args(mod))
 
   @spec stop_listener(module()) :: :ok | {:error, any()}
   def stop_listener(mod), do: :ranch.stop_listener(mod)
@@ -93,7 +93,15 @@ defmodule ExAbci.Listener do
         :ok = send_response(request, state)
 
       _ ->
-        response = apply(mod, :"handle_#{type}", [value])
+        handler = :"handle_#{type}"
+
+        response =
+          try do
+            apply(mod, handler, [value])
+          rescue
+            _ ->
+              apply(Server, handler, [value])
+          end
 
         case response do
           nil -> nil
@@ -119,7 +127,9 @@ defmodule ExAbci.Listener do
 
   # private functions
 
-  @spec gen_ranch_args(module(), pos_integer()) :: term()
-  def gen_ranch_args(mod, port),
-    do: [mod, 3, :ranch_tcp, [port: port, max_connections: 3], ExAbci.Listener, [mod]]
+  @spec gen_ranch_args(module()) :: term()
+  def gen_ranch_args(mod) do
+    port = Application.get_env(:ex_abci, :port, 26658)
+    [mod, 3, :ranch_tcp, [port: port, max_connections: 3], ExAbci.Listener, [mod]]
+  end
 end

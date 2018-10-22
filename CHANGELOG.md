@@ -1,3 +1,7 @@
+## 0.3.2-alpha (October 22, 2018)
+  - make the counter app example work
+  - hide the port from child_spec
+
 ## 0.3.0 (October 21, 2018)
 
 * Support basic message processing
