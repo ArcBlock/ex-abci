@@ -1,0 +1,10 @@
+syntax = "proto3";
+package simple_chain;
+
+message Transaction {
+  bytes from = 1;
+  bytes to = 2;
+  uint64 nonce = 3;
+  uint64 total = 4;
+  bytes pubkey = 5;
+}
