@@ -2,9 +2,9 @@ defmodule SimpleChain.Mpt do
   @moduledoc """
   Encapsulate the Merkle Patricia Tree implementation to make it more robust for our use cases
   """
+  require Logger
   alias MerklePatriciaTree.{DB, Trie}
 
-  @app_hash "app_hash"
   @last_block "last_block"
 
   @spec open(String.t()) :: Trie.t()
@@ -17,20 +17,12 @@ defmodule SimpleChain.Mpt do
 
   @spec put(Trie.t(), any, any) :: Trie.t()
   def put(trie, k, v) do
-    trie = Trie.update(trie, k, v)
-    %Trie{root_hash: root_hash} = trie
-    update_app_hash(trie, root_hash)
-    trie
+    Trie.update(trie, k, v)
   end
 
   @spec get(Trie.t(), any) :: any
   def get(trie, k) do
     Trie.get(trie, k)
-  end
-
-  @spec update_app_hash(Trie.t(), String.t()) :: :ok
-  def update_app_hash(%Trie{db: db}, hash) do
-    DB.put!(db, @app_hash, hash)
   end
 
   @spec update_block(Trie.t(), non_neg_integer()) :: :ok
@@ -40,10 +32,10 @@ defmodule SimpleChain.Mpt do
   end
 
   @spec get_last_block(Trie.t()) :: non_neg_integer()
-  def get_last_block(%Trie{db: db}), do: db_get(db, @last_block, 0)
+  def get_last_block(%Trie{db: db}), do: String.to_integer(db_get(db, @last_block, "0"))
 
   @spec get_app_hash(Trie.t()) :: non_neg_integer()
-  def get_app_hash(%Trie{db: db}), do: db_get(db, @app_hash, <<>>)
+  def get_app_hash(trie), do: get_app_hash(trie, get_last_block(trie))
 
   @spec get_app_hash(Trie.t(), non_neg_integer()) :: non_neg_integer()
   def get_app_hash(%Trie{db: db}, block), do: db_get(db, block, <<>>)
@@ -60,7 +52,7 @@ defmodule SimpleChain.Mpt do
   end
 
   # private functions
-  def db_get(db, key, default_value) do
+  defp db_get(db, key, default_value) do
     case DB.get(db, key) do
       :not_found -> default_value
       {:ok, v} -> v

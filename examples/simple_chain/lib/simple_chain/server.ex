@@ -14,6 +14,10 @@ defmodule SimpleChain.Server do
     GenServer.start_link(__MODULE__, [], name: __MODULE__)
   end
 
+  def get_app_state do
+    GenServer.call(__MODULE__, :get_app_state)
+  end
+
   # This is the standard erlang method missing function to capture the undefined functions in a module. Here we just forward the function call to gen server handler since I don't want to repeat these public interfaces (might be a bad idea).
   def unquote(:"$handle_undefined_function")(func, args) do
     func_name = Atom.to_string(func)
@@ -41,6 +45,10 @@ defmodule SimpleChain.Server do
     dbpath = Application.get_env(:simple_chain, :db, "./states.db")
 
     {:ok, %{trie: Mpt.open(dbpath)}}
+  end
+
+  def handle_call(:get_app_state, _from, %{trie: trie} = state) do
+    {:reply, trie, state}
   end
 
   def handle_call({:account_balance, address}, _from, %{trie: trie} = state) do
@@ -77,14 +85,14 @@ defmodule SimpleChain.Server do
 
     Logger.info(
       "Tendermint version: #{request.version}, last_block: #{last_block}, app_hash: #{
-        inspect(app_hash)
+        Base.encode16(app_hash)
       }"
     )
 
     response = %Abci.ResponseInfo{
-      data: "Elixir kv app",
+      data: "Elixir SimpleChain",
       version: "1.0.0",
-      last_block_height: String.to_integer(last_block),
+      last_block_height: last_block,
       last_block_app_hash: app_hash
     }
 
@@ -119,13 +127,24 @@ defmodule SimpleChain.Server do
   end
 
   def handle_call({:handle_end_block, request}, _from, %{trie: trie} = state) do
-    Logger.debug(fn -> "End block: #{inspect(request)}" end)
+    height = request.height
+    Logger.debug(fn -> "End block: #{height}" end)
 
     Mpt.update_block(trie, request.height)
 
     response = %Abci.ResponseEndBlock{
       validator_updates: [],
       tags: []
+    }
+
+    {:reply, response, state}
+  end
+
+  def handle_call({:handle_commit, request}, _from, %{trie: trie} = state) do
+    Logger.debug(fn -> "Commit block: #{inspect(request)}" end)
+
+    response = %Abci.ResponseCommit{
+      data: Mpt.get_app_hash(trie)
     }
 
     {:reply, response, state}
