@@ -1,3 +1,7 @@
+## 0.4.0-alpha (October 23, 2018)
+  - make the simple chain work (cannot resume after ctrl+c)
+  - init the simple chain example
+
 ## 0.3.2-alpha (October 22, 2018)
   - make the counter app example work
   - hide the port from child_spec

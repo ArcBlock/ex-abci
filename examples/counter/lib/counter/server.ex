@@ -65,8 +65,6 @@ defmodule Counter.Server do
   def check_tx(tx, counter) do
     v = String.to_integer(tx)
 
-    IO.inspect({v, counter})
-
     case v == counter do
       false ->
         %{
