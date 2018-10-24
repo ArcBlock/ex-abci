@@ -23,6 +23,9 @@ defmodule SimpleChain.MixProject do
   defp deps do
     [
       {:ex_abci, path: "../.."},
+      {:httpoison, "~> 1.0"},
+      {:keccakf1600, "~> 2.0", hex: :keccakf1600_orig},
+      {:libsecp256k1, "~> 0.1.3"},
       {:merkle_patricia_tree, "~> 0.2.7"},
       {:protobuf, "~> 0.5.3"}
     ]

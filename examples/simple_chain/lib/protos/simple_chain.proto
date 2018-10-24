@@ -6,5 +6,12 @@ message Transaction {
   bytes to = 2;
   uint64 nonce = 3;
   uint64 total = 4;
-  bytes pubkey = 5;
+  bytes pub_key = 5;
+  bytes signature = 6;
+}
+
+message AccountState {
+  uint64 balance = 1;
+  uint64 nonce = 2;
+  uint64 num_txs = 3;
 }
