@@ -1,3 +1,6 @@
+## 0.4.1-alpha (October 24, 2018)
+  - remove empty file
+
 ## 0.4.0-alpha (October 23, 2018)
   - make the simple chain work (cannot resume after ctrl+c)
   - init the simple chain example
