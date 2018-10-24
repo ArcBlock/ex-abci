@@ -20,7 +20,6 @@ delete-release:
 bump-version:
 	@echo "Bump version..."
 	@.makefiles/bump_version.sh
-	@git push -f -d origin $(RELEASE_VERSION) | true
 
 create-pr:
 	@echo "Creating pull request..."
