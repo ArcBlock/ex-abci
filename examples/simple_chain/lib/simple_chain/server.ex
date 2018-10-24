@@ -191,16 +191,19 @@ defmodule SimpleChain.Server do
   end
 
   defp verify_trie(%Transaction{from: addr, to: <<>>, nonce: 0, total: 0}, trie) do
-    case Account.get(trie, addr) |> IO.inspect() do
+    case Account.get(trie, addr) do
       nil -> true
       _data -> false
     end
   end
 
-  defp verify_trie(%Transaction{from: addr, nonce: n1, total: total}, trie) do
+  defp verify_trie(%Transaction{from: addr, to: addr1, nonce: n1, total: total}, trie) do
     case Account.get(trie, addr) do
-      %AccountState{nonce: n2, balance: balance} -> n1 === n2 and balance >= total
-      _ -> false
+      %AccountState{nonce: n2, balance: balance} ->
+        addr !== addr1 and n1 === n2 and balance >= total
+
+      _ ->
+        false
     end
   end
 
