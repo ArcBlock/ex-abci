@@ -46,7 +46,6 @@ defmodule SimpleChain.Mpt do
 
     %{
       last_block: block,
-      last_block_hash: get_app_hash(trie, block),
       app_hash: get_app_hash(trie)
     }
   end
