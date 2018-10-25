@@ -7,18 +7,18 @@ defmodule Abci.Request do
         }
   defstruct [:value]
 
-  oneof(:value, 0)
-  field(:echo, 2, type: Abci.RequestEcho, oneof: 0)
-  field(:flush, 3, type: Abci.RequestFlush, oneof: 0)
-  field(:info, 4, type: Abci.RequestInfo, oneof: 0)
-  field(:set_option, 5, type: Abci.RequestSetOption, oneof: 0)
-  field(:init_chain, 6, type: Abci.RequestInitChain, oneof: 0)
-  field(:query, 7, type: Abci.RequestQuery, oneof: 0)
-  field(:begin_block, 8, type: Abci.RequestBeginBlock, oneof: 0)
-  field(:check_tx, 9, type: Abci.RequestCheckTx, oneof: 0)
-  field(:deliver_tx, 19, type: Abci.RequestDeliverTx, oneof: 0)
-  field(:end_block, 11, type: Abci.RequestEndBlock, oneof: 0)
-  field(:commit, 12, type: Abci.RequestCommit, oneof: 0)
+  oneof :value, 0
+  field :echo, 2, type: Abci.RequestEcho, oneof: 0
+  field :flush, 3, type: Abci.RequestFlush, oneof: 0
+  field :info, 4, type: Abci.RequestInfo, oneof: 0
+  field :set_option, 5, type: Abci.RequestSetOption, oneof: 0
+  field :init_chain, 6, type: Abci.RequestInitChain, oneof: 0
+  field :query, 7, type: Abci.RequestQuery, oneof: 0
+  field :begin_block, 8, type: Abci.RequestBeginBlock, oneof: 0
+  field :check_tx, 9, type: Abci.RequestCheckTx, oneof: 0
+  field :deliver_tx, 19, type: Abci.RequestDeliverTx, oneof: 0
+  field :end_block, 11, type: Abci.RequestEndBlock, oneof: 0
+  field :commit, 12, type: Abci.RequestCommit, oneof: 0
 end
 
 defmodule Abci.RequestEcho do
@@ -30,7 +30,7 @@ defmodule Abci.RequestEcho do
         }
   defstruct [:message]
 
-  field(:message, 1, type: :string)
+  field :message, 1, type: :string
 end
 
 defmodule Abci.RequestFlush do
@@ -49,7 +49,7 @@ defmodule Abci.RequestInfo do
         }
   defstruct [:version]
 
-  field(:version, 1, type: :string)
+  field :version, 1, type: :string
 end
 
 defmodule Abci.RequestSetOption do
@@ -62,8 +62,8 @@ defmodule Abci.RequestSetOption do
         }
   defstruct [:key, :value]
 
-  field(:key, 1, type: :string)
-  field(:value, 2, type: :string)
+  field :key, 1, type: :string
+  field :value, 2, type: :string
 end
 
 defmodule Abci.RequestInitChain do
@@ -79,11 +79,11 @@ defmodule Abci.RequestInitChain do
         }
   defstruct [:time, :chain_id, :consensus_params, :validators, :app_state_bytes]
 
-  field(:time, 1, type: Google.Protobuf.Timestamp)
-  field(:chain_id, 2, type: :string)
-  field(:consensus_params, 3, type: Abci.ConsensusParams)
-  field(:validators, 4, repeated: true, type: Abci.ValidatorUpdate)
-  field(:app_state_bytes, 5, type: :bytes)
+  field :time, 1, type: Google.Protobuf.Timestamp
+  field :chain_id, 2, type: :string
+  field :consensus_params, 3, type: Abci.ConsensusParams
+  field :validators, 4, repeated: true, type: Abci.ValidatorUpdate
+  field :app_state_bytes, 5, type: :bytes
 end
 
 defmodule Abci.RequestQuery do
@@ -98,10 +98,10 @@ defmodule Abci.RequestQuery do
         }
   defstruct [:data, :path, :height, :prove]
 
-  field(:data, 1, type: :bytes)
-  field(:path, 2, type: :string)
-  field(:height, 3, type: :int64)
-  field(:prove, 4, type: :bool)
+  field :data, 1, type: :bytes
+  field :path, 2, type: :string
+  field :height, 3, type: :int64
+  field :prove, 4, type: :bool
 end
 
 defmodule Abci.RequestBeginBlock do
@@ -116,10 +116,10 @@ defmodule Abci.RequestBeginBlock do
         }
   defstruct [:hash, :header, :last_commit_info, :byzantine_validators]
 
-  field(:hash, 1, type: :bytes)
-  field(:header, 2, type: Abci.Header)
-  field(:last_commit_info, 3, type: Abci.LastCommitInfo)
-  field(:byzantine_validators, 4, repeated: true, type: Abci.Evidence)
+  field :hash, 1, type: :bytes
+  field :header, 2, type: Abci.Header
+  field :last_commit_info, 3, type: Abci.LastCommitInfo
+  field :byzantine_validators, 4, repeated: true, type: Abci.Evidence
 end
 
 defmodule Abci.RequestCheckTx do
@@ -131,7 +131,7 @@ defmodule Abci.RequestCheckTx do
         }
   defstruct [:tx]
 
-  field(:tx, 1, type: :bytes)
+  field :tx, 1, type: :bytes
 end
 
 defmodule Abci.RequestDeliverTx do
@@ -143,7 +143,7 @@ defmodule Abci.RequestDeliverTx do
         }
   defstruct [:tx]
 
-  field(:tx, 1, type: :bytes)
+  field :tx, 1, type: :bytes
 end
 
 defmodule Abci.RequestEndBlock do
@@ -155,7 +155,7 @@ defmodule Abci.RequestEndBlock do
         }
   defstruct [:height]
 
-  field(:height, 1, type: :int64)
+  field :height, 1, type: :int64
 end
 
 defmodule Abci.RequestCommit do
@@ -174,19 +174,19 @@ defmodule Abci.Response do
         }
   defstruct [:value]
 
-  oneof(:value, 0)
-  field(:exception, 1, type: Abci.ResponseException, oneof: 0)
-  field(:echo, 2, type: Abci.ResponseEcho, oneof: 0)
-  field(:flush, 3, type: Abci.ResponseFlush, oneof: 0)
-  field(:info, 4, type: Abci.ResponseInfo, oneof: 0)
-  field(:set_option, 5, type: Abci.ResponseSetOption, oneof: 0)
-  field(:init_chain, 6, type: Abci.ResponseInitChain, oneof: 0)
-  field(:query, 7, type: Abci.ResponseQuery, oneof: 0)
-  field(:begin_block, 8, type: Abci.ResponseBeginBlock, oneof: 0)
-  field(:check_tx, 9, type: Abci.ResponseCheckTx, oneof: 0)
-  field(:deliver_tx, 10, type: Abci.ResponseDeliverTx, oneof: 0)
-  field(:end_block, 11, type: Abci.ResponseEndBlock, oneof: 0)
-  field(:commit, 12, type: Abci.ResponseCommit, oneof: 0)
+  oneof :value, 0
+  field :exception, 1, type: Abci.ResponseException, oneof: 0
+  field :echo, 2, type: Abci.ResponseEcho, oneof: 0
+  field :flush, 3, type: Abci.ResponseFlush, oneof: 0
+  field :info, 4, type: Abci.ResponseInfo, oneof: 0
+  field :set_option, 5, type: Abci.ResponseSetOption, oneof: 0
+  field :init_chain, 6, type: Abci.ResponseInitChain, oneof: 0
+  field :query, 7, type: Abci.ResponseQuery, oneof: 0
+  field :begin_block, 8, type: Abci.ResponseBeginBlock, oneof: 0
+  field :check_tx, 9, type: Abci.ResponseCheckTx, oneof: 0
+  field :deliver_tx, 10, type: Abci.ResponseDeliverTx, oneof: 0
+  field :end_block, 11, type: Abci.ResponseEndBlock, oneof: 0
+  field :commit, 12, type: Abci.ResponseCommit, oneof: 0
 end
 
 defmodule Abci.ResponseException do
@@ -198,7 +198,7 @@ defmodule Abci.ResponseException do
         }
   defstruct [:error]
 
-  field(:error, 1, type: :string)
+  field :error, 1, type: :string
 end
 
 defmodule Abci.ResponseEcho do
@@ -210,7 +210,7 @@ defmodule Abci.ResponseEcho do
         }
   defstruct [:message]
 
-  field(:message, 1, type: :string)
+  field :message, 1, type: :string
 end
 
 defmodule Abci.ResponseFlush do
@@ -232,10 +232,10 @@ defmodule Abci.ResponseInfo do
         }
   defstruct [:data, :version, :last_block_height, :last_block_app_hash]
 
-  field(:data, 1, type: :string)
-  field(:version, 2, type: :string)
-  field(:last_block_height, 3, type: :int64)
-  field(:last_block_app_hash, 4, type: :bytes)
+  field :data, 1, type: :string
+  field :version, 2, type: :string
+  field :last_block_height, 3, type: :int64
+  field :last_block_app_hash, 4, type: :bytes
 end
 
 defmodule Abci.ResponseSetOption do
@@ -249,9 +249,9 @@ defmodule Abci.ResponseSetOption do
         }
   defstruct [:code, :log, :info]
 
-  field(:code, 1, type: :uint32)
-  field(:log, 3, type: :string)
-  field(:info, 4, type: :string)
+  field :code, 1, type: :uint32
+  field :log, 3, type: :string
+  field :info, 4, type: :string
 end
 
 defmodule Abci.ResponseInitChain do
@@ -264,8 +264,8 @@ defmodule Abci.ResponseInitChain do
         }
   defstruct [:consensus_params, :validators]
 
-  field(:consensus_params, 1, type: Abci.ConsensusParams)
-  field(:validators, 2, repeated: true, type: Abci.ValidatorUpdate)
+  field :consensus_params, 1, type: Abci.ConsensusParams
+  field :validators, 2, repeated: true, type: Abci.ValidatorUpdate
 end
 
 defmodule Abci.ResponseQuery do
@@ -284,14 +284,14 @@ defmodule Abci.ResponseQuery do
         }
   defstruct [:code, :log, :info, :index, :key, :value, :proof, :height]
 
-  field(:code, 1, type: :uint32)
-  field(:log, 3, type: :string)
-  field(:info, 4, type: :string)
-  field(:index, 5, type: :int64)
-  field(:key, 6, type: :bytes)
-  field(:value, 7, type: :bytes)
-  field(:proof, 8, type: :bytes)
-  field(:height, 9, type: :int64)
+  field :code, 1, type: :uint32
+  field :log, 3, type: :string
+  field :info, 4, type: :string
+  field :index, 5, type: :int64
+  field :key, 6, type: :bytes
+  field :value, 7, type: :bytes
+  field :proof, 8, type: :bytes
+  field :height, 9, type: :int64
 end
 
 defmodule Abci.ResponseBeginBlock do
@@ -303,7 +303,7 @@ defmodule Abci.ResponseBeginBlock do
         }
   defstruct [:tags]
 
-  field(:tags, 1, repeated: true, type: Common.KVPair)
+  field :tags, 1, repeated: true, type: Common.KVPair
 end
 
 defmodule Abci.ResponseCheckTx do
@@ -321,13 +321,13 @@ defmodule Abci.ResponseCheckTx do
         }
   defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
 
-  field(:code, 1, type: :uint32)
-  field(:data, 2, type: :bytes)
-  field(:log, 3, type: :string)
-  field(:info, 4, type: :string)
-  field(:gas_wanted, 5, type: :int64)
-  field(:gas_used, 6, type: :int64)
-  field(:tags, 7, repeated: true, type: Common.KVPair)
+  field :code, 1, type: :uint32
+  field :data, 2, type: :bytes
+  field :log, 3, type: :string
+  field :info, 4, type: :string
+  field :gas_wanted, 5, type: :int64
+  field :gas_used, 6, type: :int64
+  field :tags, 7, repeated: true, type: Common.KVPair
 end
 
 defmodule Abci.ResponseDeliverTx do
@@ -345,13 +345,13 @@ defmodule Abci.ResponseDeliverTx do
         }
   defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
 
-  field(:code, 1, type: :uint32)
-  field(:data, 2, type: :bytes)
-  field(:log, 3, type: :string)
-  field(:info, 4, type: :string)
-  field(:gas_wanted, 5, type: :int64)
-  field(:gas_used, 6, type: :int64)
-  field(:tags, 7, repeated: true, type: Common.KVPair)
+  field :code, 1, type: :uint32
+  field :data, 2, type: :bytes
+  field :log, 3, type: :string
+  field :info, 4, type: :string
+  field :gas_wanted, 5, type: :int64
+  field :gas_used, 6, type: :int64
+  field :tags, 7, repeated: true, type: Common.KVPair
 end
 
 defmodule Abci.ResponseEndBlock do
@@ -365,9 +365,9 @@ defmodule Abci.ResponseEndBlock do
         }
   defstruct [:validator_updates, :consensus_param_updates, :tags]
 
-  field(:validator_updates, 1, repeated: true, type: Abci.ValidatorUpdate)
-  field(:consensus_param_updates, 2, type: Abci.ConsensusParams)
-  field(:tags, 3, repeated: true, type: Common.KVPair)
+  field :validator_updates, 1, repeated: true, type: Abci.ValidatorUpdate
+  field :consensus_param_updates, 2, type: Abci.ConsensusParams
+  field :tags, 3, repeated: true, type: Common.KVPair
 end
 
 defmodule Abci.ResponseCommit do
@@ -379,7 +379,7 @@ defmodule Abci.ResponseCommit do
         }
   defstruct [:data]
 
-  field(:data, 2, type: :bytes)
+  field :data, 2, type: :bytes
 end
 
 defmodule Abci.ConsensusParams do
@@ -392,8 +392,8 @@ defmodule Abci.ConsensusParams do
         }
   defstruct [:block_size, :evidence_params]
 
-  field(:block_size, 1, type: Abci.BlockSize)
-  field(:evidence_params, 2, type: Abci.EvidenceParams)
+  field :block_size, 1, type: Abci.BlockSize
+  field :evidence_params, 2, type: Abci.EvidenceParams
 end
 
 defmodule Abci.BlockSize do
@@ -406,8 +406,8 @@ defmodule Abci.BlockSize do
         }
   defstruct [:max_bytes, :max_gas]
 
-  field(:max_bytes, 1, type: :int64)
-  field(:max_gas, 2, type: :int64)
+  field :max_bytes, 1, type: :int64
+  field :max_gas, 2, type: :int64
 end
 
 defmodule Abci.EvidenceParams do
@@ -419,7 +419,7 @@ defmodule Abci.EvidenceParams do
         }
   defstruct [:max_age]
 
-  field(:max_age, 1, type: :int64)
+  field :max_age, 1, type: :int64
 end
 
 defmodule Abci.LastCommitInfo do
@@ -432,8 +432,8 @@ defmodule Abci.LastCommitInfo do
         }
   defstruct [:round, :votes]
 
-  field(:round, 1, type: :int32)
-  field(:votes, 2, repeated: true, type: Abci.VoteInfo)
+  field :round, 1, type: :int32
+  field :votes, 2, repeated: true, type: Abci.VoteInfo
 end
 
 defmodule Abci.Header do
@@ -475,21 +475,21 @@ defmodule Abci.Header do
     :proposer_address
   ]
 
-  field(:chain_id, 1, type: :string)
-  field(:height, 2, type: :int64)
-  field(:time, 3, type: Google.Protobuf.Timestamp)
-  field(:num_txs, 4, type: :int64)
-  field(:total_txs, 5, type: :int64)
-  field(:last_block_id, 6, type: Abci.BlockID)
-  field(:last_commit_hash, 7, type: :bytes)
-  field(:data_hash, 8, type: :bytes)
-  field(:validators_hash, 9, type: :bytes)
-  field(:next_validators_hash, 10, type: :bytes)
-  field(:consensus_hash, 11, type: :bytes)
-  field(:app_hash, 12, type: :bytes)
-  field(:last_results_hash, 13, type: :bytes)
-  field(:evidence_hash, 14, type: :bytes)
-  field(:proposer_address, 15, type: :bytes)
+  field :chain_id, 1, type: :string
+  field :height, 2, type: :int64
+  field :time, 3, type: Google.Protobuf.Timestamp
+  field :num_txs, 4, type: :int64
+  field :total_txs, 5, type: :int64
+  field :last_block_id, 6, type: Abci.BlockID
+  field :last_commit_hash, 7, type: :bytes
+  field :data_hash, 8, type: :bytes
+  field :validators_hash, 9, type: :bytes
+  field :next_validators_hash, 10, type: :bytes
+  field :consensus_hash, 11, type: :bytes
+  field :app_hash, 12, type: :bytes
+  field :last_results_hash, 13, type: :bytes
+  field :evidence_hash, 14, type: :bytes
+  field :proposer_address, 15, type: :bytes
 end
 
 defmodule Abci.BlockID do
@@ -502,8 +502,8 @@ defmodule Abci.BlockID do
         }
   defstruct [:hash, :parts_header]
 
-  field(:hash, 1, type: :bytes)
-  field(:parts_header, 2, type: Abci.PartSetHeader)
+  field :hash, 1, type: :bytes
+  field :parts_header, 2, type: Abci.PartSetHeader
 end
 
 defmodule Abci.PartSetHeader do
@@ -516,8 +516,8 @@ defmodule Abci.PartSetHeader do
         }
   defstruct [:total, :hash]
 
-  field(:total, 1, type: :int32)
-  field(:hash, 2, type: :bytes)
+  field :total, 1, type: :int32
+  field :hash, 2, type: :bytes
 end
 
 defmodule Abci.Validator do
@@ -530,8 +530,8 @@ defmodule Abci.Validator do
         }
   defstruct [:address, :power]
 
-  field(:address, 1, type: :bytes)
-  field(:power, 3, type: :int64)
+  field :address, 1, type: :bytes
+  field :power, 3, type: :int64
 end
 
 defmodule Abci.ValidatorUpdate do
@@ -544,8 +544,8 @@ defmodule Abci.ValidatorUpdate do
         }
   defstruct [:pub_key, :power]
 
-  field(:pub_key, 1, type: Abci.PubKey)
-  field(:power, 2, type: :int64)
+  field :pub_key, 1, type: Abci.PubKey
+  field :power, 2, type: :int64
 end
 
 defmodule Abci.VoteInfo do
@@ -558,8 +558,8 @@ defmodule Abci.VoteInfo do
         }
   defstruct [:validator, :signed_last_block]
 
-  field(:validator, 1, type: Abci.Validator)
-  field(:signed_last_block, 2, type: :bool)
+  field :validator, 1, type: Abci.Validator
+  field :signed_last_block, 2, type: :bool
 end
 
 defmodule Abci.PubKey do
@@ -572,8 +572,8 @@ defmodule Abci.PubKey do
         }
   defstruct [:type, :data]
 
-  field(:type, 1, type: :string)
-  field(:data, 2, type: :bytes)
+  field :type, 1, type: :string
+  field :data, 2, type: :bytes
 end
 
 defmodule Abci.Evidence do
@@ -589,9 +589,9 @@ defmodule Abci.Evidence do
         }
   defstruct [:type, :validator, :height, :time, :total_voting_power]
 
-  field(:type, 1, type: :string)
-  field(:validator, 2, type: Abci.Validator)
-  field(:height, 3, type: :int64)
-  field(:time, 4, type: Google.Protobuf.Timestamp)
-  field(:total_voting_power, 5, type: :int64)
+  field :type, 1, type: :string
+  field :validator, 2, type: Abci.Validator
+  field :height, 3, type: :int64
+  field :time, 4, type: Google.Protobuf.Timestamp
+  field :total_voting_power, 5, type: :int64
 end
