@@ -47,7 +47,6 @@ defmodule ExAbci.MixProject do
     [
       # Normal depedencies
       {:google_protos, "~> 0.1"},
-      {:grpc, "~> 0.3.0-alpha.2"},
       {:protobuf, "~> 0.5.3"},
       {:ranch, "~> 1.6"},
 
