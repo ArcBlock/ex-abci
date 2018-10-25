@@ -595,25 +595,3 @@ defmodule Abci.Evidence do
   field :time, 4, type: Google.Protobuf.Timestamp
   field :total_voting_power, 5, type: :int64
 end
-
-defmodule Abci.ABCIApplication.Service do
-  @moduledoc false
-  use GRPC.Service, name: "abci.ABCIApplication"
-
-  rpc :Echo, Abci.RequestEcho, Abci.ResponseEcho
-  rpc :Flush, Abci.RequestFlush, Abci.ResponseFlush
-  rpc :Info, Abci.RequestInfo, Abci.ResponseInfo
-  rpc :SetOption, Abci.RequestSetOption, Abci.ResponseSetOption
-  rpc :DeliverTx, Abci.RequestDeliverTx, Abci.ResponseDeliverTx
-  rpc :CheckTx, Abci.RequestCheckTx, Abci.ResponseCheckTx
-  rpc :Query, Abci.RequestQuery, Abci.ResponseQuery
-  rpc :Commit, Abci.RequestCommit, Abci.ResponseCommit
-  rpc :InitChain, Abci.RequestInitChain, Abci.ResponseInitChain
-  rpc :BeginBlock, Abci.RequestBeginBlock, Abci.ResponseBeginBlock
-  rpc :EndBlock, Abci.RequestEndBlock, Abci.ResponseEndBlock
-end
-
-defmodule Abci.ABCIApplication.Stub do
-  @moduledoc false
-  use GRPC.Stub, service: Abci.ABCIApplication.Service
-end

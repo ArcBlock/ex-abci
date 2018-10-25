@@ -1,3 +1,6 @@
+## 0.4.2 (October 25, 2018)
+  - we don't really use grpc here so remove it and its dep
+
 ## 0.4.1-alpha (October 24, 2018)
   - remove empty file
 
