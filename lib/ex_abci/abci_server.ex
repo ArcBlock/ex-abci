@@ -5,6 +5,14 @@ defmodule ExAbci.Server do
 
   require Logger
 
+  alias Abci.{
+    ResponseBeginBlock,
+    ResponseCommit,
+    ResponseEndBlock,
+    ResponseInitChain,
+    ResponseQuery
+  }
+
   def handle_init_chain(request) do
     %Abci.RequestInitChain{
       app_state_bytes: app_state,
@@ -21,10 +29,7 @@ defmodule ExAbci.Server do
       }, validators: #{inspect(pub_keys)}"
     end)
 
-    %Abci.ResponseInitChain{
-      consensus_params: params,
-      validators: validators
-    }
+    ResponseInitChain.new(consensus_params: params, validators: validators)
   end
 
   def handle_begin_block(request) do
@@ -59,25 +64,24 @@ defmodule ExAbci.Server do
       }"
     end)
 
-    %Abci.ResponseBeginBlock{
-      tags: []
-    }
+    ResponseBeginBlock.new(tags: [])
   end
 
   def handle_end_block(request) do
     Logger.debug(fn -> "End block: #{inspect(request)}" end)
 
-    %Abci.ResponseEndBlock{
-      validator_updates: [],
-      tags: []
-    }
+    ResponseEndBlock.new(validator_updates: [], tags: [])
   end
 
   def handle_commit(request) do
     Logger.debug(fn -> "Commit block: #{inspect(request)}" end)
 
-    %Abci.ResponseCommit{
-      data: <<>>
-    }
+    ResponseCommit.new(data: <<>>)
+  end
+
+  def handle_query(request) do
+    Logger.debug(fn -> "Query: #{inspect(request)}" end)
+
+    ResponseQuery.new(code: 500)
   end
 end
