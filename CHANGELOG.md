@@ -1,3 +1,6 @@
+## 0.4.4 (October 29, 2018)
+  - dummy handle query
+
 ## 0.4.3 (October 29, 2018)
   - build common.KVPair under abci namespace
 
