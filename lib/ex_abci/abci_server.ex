@@ -80,4 +80,12 @@ defmodule ExAbci.Server do
       data: <<>>
     }
   end
+
+  def handle_query(request) do
+    Logger.debug(fn -> "Query: #{inspect(request)}" end)
+
+    %Abci.ResponseQuery{
+      code: 500
+    }
+  end
 end
