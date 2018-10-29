@@ -1,3 +1,6 @@
+## 0.4.3 (October 29, 2018)
+  - build common.KVPair under abci namespace
+
 ## 0.4.2 (October 25, 2018)
   - we don't really use grpc here so remove it and its dep
 
