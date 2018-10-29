@@ -42,12 +42,12 @@ defmodule SimpleChain.Tx do
     )
   end
 
-  defp ecdsa_sign!(data, priv_key) do
+  def ecdsa_sign!(data, priv_key) do
     {:ok, signature} = :libsecp256k1.ecdsa_sign(data, Base.decode16!(priv_key), :default, <<>>)
     signature
   end
 
-  defp ecdsa_verify(data, signature, pub_key) do
+  def ecdsa_verify(data, signature, pub_key) do
     :libsecp256k1.ecdsa_verify(data, signature, Base.decode16!(pub_key))
   end
 end

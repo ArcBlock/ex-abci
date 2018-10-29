@@ -299,11 +299,11 @@ defmodule Abci.ResponseBeginBlock do
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          tags: [Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()]
         }
   defstruct [:tags]
 
-  field :tags, 1, repeated: true, type: Common.KVPair
+  field :tags, 1, repeated: true, type: Abci.Common.KVPair
 end
 
 defmodule Abci.ResponseCheckTx do
@@ -317,7 +317,7 @@ defmodule Abci.ResponseCheckTx do
           info: String.t(),
           gas_wanted: integer,
           gas_used: integer,
-          tags: [Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()]
         }
   defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
 
@@ -327,7 +327,7 @@ defmodule Abci.ResponseCheckTx do
   field :info, 4, type: :string
   field :gas_wanted, 5, type: :int64
   field :gas_used, 6, type: :int64
-  field :tags, 7, repeated: true, type: Common.KVPair
+  field :tags, 7, repeated: true, type: Abci.Common.KVPair
 end
 
 defmodule Abci.ResponseDeliverTx do
@@ -341,7 +341,7 @@ defmodule Abci.ResponseDeliverTx do
           info: String.t(),
           gas_wanted: integer,
           gas_used: integer,
-          tags: [Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()]
         }
   defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
 
@@ -351,7 +351,7 @@ defmodule Abci.ResponseDeliverTx do
   field :info, 4, type: :string
   field :gas_wanted, 5, type: :int64
   field :gas_used, 6, type: :int64
-  field :tags, 7, repeated: true, type: Common.KVPair
+  field :tags, 7, repeated: true, type: Abci.Common.KVPair
 end
 
 defmodule Abci.ResponseEndBlock do
@@ -361,13 +361,13 @@ defmodule Abci.ResponseEndBlock do
   @type t :: %__MODULE__{
           validator_updates: [Abci.ValidatorUpdate.t()],
           consensus_param_updates: Abci.ConsensusParams.t(),
-          tags: [Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()]
         }
   defstruct [:validator_updates, :consensus_param_updates, :tags]
 
   field :validator_updates, 1, repeated: true, type: Abci.ValidatorUpdate
   field :consensus_param_updates, 2, type: Abci.ConsensusParams
-  field :tags, 3, repeated: true, type: Common.KVPair
+  field :tags, 3, repeated: true, type: Abci.Common.KVPair
 end
 
 defmodule Abci.ResponseCommit do
