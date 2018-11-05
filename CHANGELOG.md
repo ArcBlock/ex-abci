@@ -1,3 +1,6 @@
+## 0.5.0 (November 05, 2018)
+  - upgrade to tendermint 0.26. Fix test cases
+
 ## 0.4.4 (October 29, 2018)
   - dummy handle query
 
