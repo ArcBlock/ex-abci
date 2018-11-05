@@ -45,11 +45,15 @@ defmodule Abci.RequestInfo do
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          version: String.t()
+          version: String.t(),
+          block_version: non_neg_integer,
+          p2p_version: non_neg_integer
         }
-  defstruct [:version]
+  defstruct [:version, :block_version, :p2p_version]
 
   field :version, 1, type: :string
+  field :block_version, 2, type: :uint64
+  field :p2p_version, 3, type: :uint64
 end
 
 defmodule Abci.RequestSetOption do
@@ -227,15 +231,17 @@ defmodule Abci.ResponseInfo do
   @type t :: %__MODULE__{
           data: String.t(),
           version: String.t(),
+          app_version: non_neg_integer,
           last_block_height: integer,
           last_block_app_hash: String.t()
         }
-  defstruct [:data, :version, :last_block_height, :last_block_app_hash]
+  defstruct [:data, :version, :app_version, :last_block_height, :last_block_app_hash]
 
   field :data, 1, type: :string
   field :version, 2, type: :string
-  field :last_block_height, 3, type: :int64
-  field :last_block_app_hash, 4, type: :bytes
+  field :app_version, 3, type: :uint64
+  field :last_block_height, 4, type: :int64
+  field :last_block_app_hash, 5, type: :bytes
 end
 
 defmodule Abci.ResponseSetOption do
@@ -279,10 +285,11 @@ defmodule Abci.ResponseQuery do
           index: integer,
           key: String.t(),
           value: String.t(),
-          proof: String.t(),
-          height: integer
+          proof: Merkle.Proof.t(),
+          height: integer,
+          codespace: String.t()
         }
-  defstruct [:code, :log, :info, :index, :key, :value, :proof, :height]
+  defstruct [:code, :log, :info, :index, :key, :value, :proof, :height, :codespace]
 
   field :code, 1, type: :uint32
   field :log, 3, type: :string
@@ -290,8 +297,9 @@ defmodule Abci.ResponseQuery do
   field :index, 5, type: :int64
   field :key, 6, type: :bytes
   field :value, 7, type: :bytes
-  field :proof, 8, type: :bytes
+  field :proof, 8, type: Merkle.Proof
   field :height, 9, type: :int64
+  field :codespace, 10, type: :string
 end
 
 defmodule Abci.ResponseBeginBlock do
@@ -317,9 +325,10 @@ defmodule Abci.ResponseCheckTx do
           info: String.t(),
           gas_wanted: integer,
           gas_used: integer,
-          tags: [Abci.Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()],
+          codespace: String.t()
         }
-  defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
+  defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags, :codespace]
 
   field :code, 1, type: :uint32
   field :data, 2, type: :bytes
@@ -328,6 +337,7 @@ defmodule Abci.ResponseCheckTx do
   field :gas_wanted, 5, type: :int64
   field :gas_used, 6, type: :int64
   field :tags, 7, repeated: true, type: Abci.Common.KVPair
+  field :codespace, 8, type: :string
 end
 
 defmodule Abci.ResponseDeliverTx do
@@ -341,9 +351,10 @@ defmodule Abci.ResponseDeliverTx do
           info: String.t(),
           gas_wanted: integer,
           gas_used: integer,
-          tags: [Abci.Common.KVPair.t()]
+          tags: [Abci.Common.KVPair.t()],
+          codespace: String.t()
         }
-  defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags]
+  defstruct [:code, :data, :log, :info, :gas_wanted, :gas_used, :tags, :codespace]
 
   field :code, 1, type: :uint32
   field :data, 2, type: :bytes
@@ -352,6 +363,7 @@ defmodule Abci.ResponseDeliverTx do
   field :gas_wanted, 5, type: :int64
   field :gas_used, 6, type: :int64
   field :tags, 7, repeated: true, type: Abci.Common.KVPair
+  field :codespace, 8, type: :string
 end
 
 defmodule Abci.ResponseEndBlock do
@@ -387,16 +399,18 @@ defmodule Abci.ConsensusParams do
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          block_size: Abci.BlockSize.t(),
-          evidence_params: Abci.EvidenceParams.t()
+          block_size: Abci.BlockSizeParams.t(),
+          evidence: Abci.EvidenceParams.t(),
+          validator: Abci.ValidatorParams.t()
         }
-  defstruct [:block_size, :evidence_params]
+  defstruct [:block_size, :evidence, :validator]
 
-  field :block_size, 1, type: Abci.BlockSize
-  field :evidence_params, 2, type: Abci.EvidenceParams
+  field :block_size, 1, type: Abci.BlockSizeParams
+  field :evidence, 2, type: Abci.EvidenceParams
+  field :validator, 3, type: Abci.ValidatorParams
 end
 
-defmodule Abci.BlockSize do
+defmodule Abci.BlockSizeParams do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -422,6 +436,18 @@ defmodule Abci.EvidenceParams do
   field :max_age, 1, type: :int64
 end
 
+defmodule Abci.ValidatorParams do
+  @moduledoc false
+  use Protobuf, syntax: :proto3
+
+  @type t :: %__MODULE__{
+          pub_key_types: [String.t()]
+        }
+  defstruct [:pub_key_types]
+
+  field :pub_key_types, 1, repeated: true, type: :string
+end
+
 defmodule Abci.LastCommitInfo do
   @moduledoc false
   use Protobuf, syntax: :proto3
@@ -441,6 +467,7 @@ defmodule Abci.Header do
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
+          version: Abci.Version.t(),
           chain_id: String.t(),
           height: integer,
           time: Google.Protobuf.Timestamp.t(),
@@ -458,6 +485,7 @@ defmodule Abci.Header do
           proposer_address: String.t()
         }
   defstruct [
+    :version,
     :chain_id,
     :height,
     :time,
@@ -475,21 +503,36 @@ defmodule Abci.Header do
     :proposer_address
   ]
 
-  field :chain_id, 1, type: :string
-  field :height, 2, type: :int64
-  field :time, 3, type: Google.Protobuf.Timestamp
-  field :num_txs, 4, type: :int64
-  field :total_txs, 5, type: :int64
-  field :last_block_id, 6, type: Abci.BlockID
-  field :last_commit_hash, 7, type: :bytes
-  field :data_hash, 8, type: :bytes
-  field :validators_hash, 9, type: :bytes
-  field :next_validators_hash, 10, type: :bytes
-  field :consensus_hash, 11, type: :bytes
-  field :app_hash, 12, type: :bytes
-  field :last_results_hash, 13, type: :bytes
-  field :evidence_hash, 14, type: :bytes
-  field :proposer_address, 15, type: :bytes
+  field :version, 1, type: Abci.Version
+  field :chain_id, 2, type: :string
+  field :height, 3, type: :int64
+  field :time, 4, type: Google.Protobuf.Timestamp
+  field :num_txs, 5, type: :int64
+  field :total_txs, 6, type: :int64
+  field :last_block_id, 7, type: Abci.BlockID
+  field :last_commit_hash, 8, type: :bytes
+  field :data_hash, 9, type: :bytes
+  field :validators_hash, 10, type: :bytes
+  field :next_validators_hash, 11, type: :bytes
+  field :consensus_hash, 12, type: :bytes
+  field :app_hash, 13, type: :bytes
+  field :last_results_hash, 14, type: :bytes
+  field :evidence_hash, 15, type: :bytes
+  field :proposer_address, 16, type: :bytes
+end
+
+defmodule Abci.Version do
+  @moduledoc false
+  use Protobuf, syntax: :proto3
+
+  @type t :: %__MODULE__{
+          Block: non_neg_integer,
+          App: non_neg_integer
+        }
+  defstruct [:Block, :App]
+
+  field :Block, 1, type: :uint64
+  field :App, 2, type: :uint64
 end
 
 defmodule Abci.BlockID do

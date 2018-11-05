@@ -75,10 +75,11 @@ rebuild-deps:
 
 # warning: if you rebuild-proto, please remove the grpc definition in the compiled file. Those parts are not used. If we keep them, we need to include the grpc library, which is unnecessary.
 rebuild-proto:
-	@mkdir -p lib/abci_protos; mkdir -p /tmp/github.com/gogo/protobuf/gogoproto/;mkdir -p /tmp/github.com/tendermint/tendermint/libs/common;
+	@mkdir -p lib/abci_protos; mkdir -p /tmp/github.com/gogo/protobuf/gogoproto/;mkdir -p /tmp/github.com/tendermint/tendermint/libs/common; mkdir -p /tmp/github.com/tendermint/tendermint/crypto/merkle;
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/abci/types/types.proto > /tmp/types.proto
 	@sed 's/package types/package abci/g; s/common.KVPair/abci.common.KVPair/g;' /tmp/types.proto > /tmp/abci.proto
 	@curl --silent https://raw.githubusercontent.com/gogo/protobuf/master/gogoproto/gogo.proto > /tmp/github.com/gogo/protobuf/gogoproto/gogo.proto
+	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/crypto/merkle/merkle.proto > /tmp/github.com/tendermint/tendermint/crypto/merkle/merkle.proto
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/libs/common/types.proto > /tmp/types.proto
 	@sed 's/package common/package abci.common/g' /tmp/types.proto > /tmp/github.com/tendermint/tendermint/libs/common/types.proto
 	@rm -rf ./lib/abci_protos/*
