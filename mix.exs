@@ -53,7 +53,7 @@ defmodule ExAbci.MixProject do
       # dev & test
       {:credo, "~> 0.8", only: [:dev, :test]},
       {:dialyxir, "~> 0.5", only: [:dev], runtime: false},
-      {:ex_doc, "~> 0.18.0", only: [:dev, :test]},
+      {:ex_doc, "~> 0.19", only: [:dev, :test]},
       {:pre_commit_hook, "~> 1.2", only: [:dev, :test]}
     ]
   end

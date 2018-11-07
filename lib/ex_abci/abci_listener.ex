@@ -11,7 +11,7 @@ defmodule ExAbci.Listener do
 
   @behaviour :ranch_protocol
 
-  @spec start_link(reference(), any(), atom(), list()) :: {:ok, pid} | {:error, any()}
+  @spec start_link(reference(), any(), atom(), list()) :: {:ok, pid}
   def start_link(ref, socket, transport, opts) do
     {:ok, :proc_lib.spawn_link(__MODULE__, :init, [{ref, socket, transport, opts}])}
   end

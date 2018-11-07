@@ -43,6 +43,10 @@ test:
 	@echo "Running test suites..."
 	@MIX_ENV=test mix test
 
+dialyzer:
+	@echo "Running dialyzer..."
+	@mix dialyzer
+
 doc:
 	@echo "Building the documentation..."
 
@@ -54,7 +58,7 @@ travis-deploy:
 	@echo "Deploy the software by travis"
 	@make release
 
-clean: clean-api-docs
+clean:
 	@echo "Cleaning the build..."
 
 watch:
@@ -87,8 +91,11 @@ rebuild-proto:
 	@echo New protobuf files created for tendermint ABCI.
 	@mv /tmp/github.com/tendermint/tendermint/libs/common/types.proto /tmp/common.proto
 	@protoc -I /tmp --elixir_out=plugins=grpc:./lib/abci_protos /tmp/common.proto
+	@mv /tmp/github.com/tendermint/tendermint/crypto/merkle/merkle.proto /tmp/merkle.proto
+	@protoc -I /tmp --elixir_out=plugins=grpc:./lib/abci_protos /tmp/merkle.proto
+
 	@echo New protobuf files created for tendermint ABCI.
 
 include .makefiles/*.mk
 
-.PHONY: build init travis-init install dep pre-build post-build all test doc precommit travis clean watch run bump-version create-pr submodule build-release
+.PHONY: build init travis-init install dep pre-build post-build all test dialyzer doc precommit travis clean watch run bump-version create-pr submodule build-release
