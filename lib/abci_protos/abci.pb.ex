@@ -285,7 +285,7 @@ defmodule Abci.ResponseQuery do
           index: integer,
           key: String.t(),
           value: String.t(),
-          proof: Merkle.Proof.t(),
+          proof: Abci.Merkle.Proof.t(),
           height: integer,
           codespace: String.t()
         }
@@ -297,7 +297,7 @@ defmodule Abci.ResponseQuery do
   field :index, 5, type: :int64
   field :key, 6, type: :bytes
   field :value, 7, type: :bytes
-  field :proof, 8, type: Merkle.Proof
+  field :proof, 8, type: Abci.Merkle.Proof
   field :height, 9, type: :int64
   field :codespace, 10, type: :string
 end
