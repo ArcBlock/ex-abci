@@ -83,9 +83,10 @@ rebuild-proto:
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/abci/types/types.proto > /tmp/types.proto
 	@sed 's/package types/package abci/g; s/common.KVPair/abci.common.KVPair/g;' /tmp/types.proto > /tmp/abci.proto
 	@curl --silent https://raw.githubusercontent.com/gogo/protobuf/master/gogoproto/gogo.proto > /tmp/github.com/gogo/protobuf/gogoproto/gogo.proto
-	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/crypto/merkle/merkle.proto > /tmp/github.com/tendermint/tendermint/crypto/merkle/merkle.proto
+	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/crypto/merkle/merkle.proto > /tmp/merkle.proto
 	@curl --silent https://raw.githubusercontent.com/tendermint/tendermint/master/libs/common/types.proto > /tmp/types.proto
 	@sed 's/package common/package abci.common/g' /tmp/types.proto > /tmp/github.com/tendermint/tendermint/libs/common/types.proto
+	@sed 's/package merkle/package abci.merkle/g' /tmp/merkle.proto > /tmp/github.com/tendermint/tendermint/crypto/merkle/merkle.proto
 	@rm -rf ./lib/abci_protos/*
 	@protoc -I /tmp --elixir_out=plugins=grpc:./lib/abci_protos /tmp/abci.proto
 	@echo New protobuf files created for tendermint ABCI.
