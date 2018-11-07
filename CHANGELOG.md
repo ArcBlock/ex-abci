@@ -1,3 +1,6 @@
+## 0.5.1 (November 07, 2018)
+  - make sure the code pass dialyzer
+
 ## 0.5.0 (November 05, 2018)
   - upgrade to tendermint 0.26. Fix test cases
 
