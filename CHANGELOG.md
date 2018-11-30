@@ -1,3 +1,6 @@
+## 0.5.3  (November 30, 2018)
+  - bump ranch version to 1.7
+
 ## 0.5.2 (November 30, 2018)
   - fix issue for: https://github.com/tendermint/tendermint/issues/2954
 

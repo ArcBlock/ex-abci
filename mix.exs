@@ -48,7 +48,7 @@ defmodule ExAbci.MixProject do
       # Normal depedencies
       {:google_protos, "~> 0.1"},
       {:protobuf, "~> 0.5.3"},
-      {:ranch, "~> 1.6"},
+      {:ranch, "~> 1.7"},
 
       # dev & test
       {:credo, "~> 0.8", only: [:dev, :test]},
