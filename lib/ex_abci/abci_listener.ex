@@ -52,7 +52,10 @@ defmodule ExAbci.Listener do
 
   def handle_info({:tcp_closed, _socket}, state), do: {:stop, :normal, state}
 
-  def handle_info(_msg, state), do: {:noreply, state}
+  def handle_info(msg, state) do
+    Logger.debug(fn -> "Received unkown message: #{inspect(msg)}" end)
+    {:noreply, state}
+  end
 
   def terminate(_reason, _state), do: :ok
 
@@ -129,7 +132,9 @@ defmodule ExAbci.Listener do
 
   @spec gen_ranch_args(module()) :: term()
   def gen_ranch_args(mod) do
-    port = Application.get_env(:ex_abci, :port, 26658)
-    [mod, :ranch_tcp, [port: port, max_connections: 3], ExAbci.Listener, [mod]]
+    opts =
+      Application.get_env(:ex_abci, :ranch_opts, port: 26658, max_connections: 3, buffer: 65535)
+
+    [mod, :ranch_tcp, opts, ExAbci.Listener, [mod]]
   end
 end

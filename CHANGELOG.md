@@ -1,3 +1,6 @@
+## 0.5.2 (November 30, 2018)
+  - fix issue for: https://github.com/tendermint/tendermint/issues/2954
+
 ## 0.5.1 (November 07, 2018)
   - make sure the code pass dialyzer
 
