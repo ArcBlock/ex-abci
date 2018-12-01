@@ -1,3 +1,6 @@
+## 0.5.4 (November 30, 2018)
+
+
 ## 0.5.3  (November 30, 2018)
   - bump ranch version to 1.7
 
