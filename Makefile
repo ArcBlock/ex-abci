@@ -84,7 +84,7 @@ rebuild-proto:
 	@protoc -I ./vendors/github.com/tendermint/tendermint/rpc -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/rpc/grpc/types.proto
 	@protoc -I ./vendors/github.com/tendermint/tendermint/libs/ -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/libs/common/types.proto
 	@protoc -I ./vendors/github.com/tendermint/tendermint/crypto -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/crypto/merkle/merkle.proto
-	@protoc -I ./vendors/github.com/gogo/protobuf/protobuf/google/protobuf -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/gogo/protobuf/protobuf/google/protobuf/timestamp.proto
+	# @protoc -I ./vendors/github.com/gogo/protobuf/protobuf/google/protobuf -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/gogo/protobuf/protobuf/google/protobuf/timestamp.proto
 	@echo New protobuf files created for tendermint ABCI.
 
 include .makefiles/*.mk
