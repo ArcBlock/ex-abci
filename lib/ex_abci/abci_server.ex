@@ -5,7 +5,10 @@ defmodule ExAbci.Server do
 
   require Logger
 
-  alias Abci.{
+  alias Types.{
+    Header,
+    RequestBeginBlock,
+    RequestInitChain,
     ResponseBeginBlock,
     ResponseCommit,
     ResponseEndBlock,
@@ -14,7 +17,7 @@ defmodule ExAbci.Server do
   }
 
   def handle_init_chain(request) do
-    %Abci.RequestInitChain{
+    %RequestInitChain{
       app_state_bytes: app_state,
       chain_id: chain_id,
       consensus_params: params,
@@ -33,9 +36,9 @@ defmodule ExAbci.Server do
   end
 
   def handle_begin_block(request) do
-    %Abci.RequestBeginBlock{
+    %RequestBeginBlock{
       hash: _hash,
-      header: %Abci.Header{
+      header: %Header{
         app_hash: app_hash,
         consensus_hash: consensus_hash,
         data_hash: data_hash,

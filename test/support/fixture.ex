@@ -1,7 +1,7 @@
 defmodule ExAbciTest.Fixture do
   @moduledoc false
 
-  alias Abci.{
+  alias Types.{
     Header,
     Request,
     RequestBeginBlock,

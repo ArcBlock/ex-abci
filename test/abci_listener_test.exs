@@ -4,6 +4,8 @@ defmodule ExAbciTest.Listener do
   alias ExAbci.Listener
   alias ExAbciTest.Fixture
 
+  alias Types.Request
+
   test "shall decode messages" do
     messages = [
       %{
@@ -60,7 +62,7 @@ defmodule ExAbciTest.Listener do
 
     Enum.map(messages, fn %{data: data, type: type} = msg ->
       {[request], ""} = Listener.unpack_requests(data)
-      assert %Abci.Request{value: {^type, req}} = request
+      assert %Request{value: {^type, req}} = request
 
       case Map.get(msg, :assert_fn, nil) do
         nil -> :ok
