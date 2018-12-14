@@ -1,3 +1,6 @@
+## 0.6.0 (December 14, 2018)
+  - add grpc support
+
 ## 0.5.4 (November 30, 2018)
  . - fix configuration
 
