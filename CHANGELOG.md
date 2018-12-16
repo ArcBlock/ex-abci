@@ -1,3 +1,6 @@
+## 0.6.1 (December 16, 2018)
+  - remove override
+
 ## 0.6.0 (December 14, 2018)
   - add grpc support
 
