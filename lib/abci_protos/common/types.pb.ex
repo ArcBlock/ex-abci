@@ -1,4 +1,4 @@
-defmodule Abci.Common.KVPair do
+defmodule Common.KVPair do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -12,7 +12,7 @@ defmodule Abci.Common.KVPair do
   field :value, 2, type: :bytes
 end
 
-defmodule Abci.Common.KI64Pair do
+defmodule Common.KI64Pair do
   @moduledoc false
   use Protobuf, syntax: :proto3
 

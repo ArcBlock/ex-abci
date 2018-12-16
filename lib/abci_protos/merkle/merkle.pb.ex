@@ -1,4 +1,4 @@
-defmodule Abci.Merkle.ProofOp do
+defmodule Merkle.ProofOp do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
@@ -14,14 +14,14 @@ defmodule Abci.Merkle.ProofOp do
   field :data, 3, type: :bytes
 end
 
-defmodule Abci.Merkle.Proof do
+defmodule Merkle.Proof do
   @moduledoc false
   use Protobuf, syntax: :proto3
 
   @type t :: %__MODULE__{
-          ops: [Abci.Merkle.ProofOp.t()]
+          ops: [Merkle.ProofOp.t()]
         }
   defstruct [:ops]
 
-  field :ops, 1, repeated: true, type: Abci.Merkle.ProofOp
+  field :ops, 1, repeated: true, type: Merkle.ProofOp
 end
