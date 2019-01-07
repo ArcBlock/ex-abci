@@ -5,7 +5,7 @@ defmodule ExAbci.Server do
 
   require Logger
 
-  alias Types.{
+  alias ForgeVendor.{
     Header,
     RequestBeginBlock,
     RequestInitChain,

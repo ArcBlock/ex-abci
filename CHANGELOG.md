@@ -1,3 +1,6 @@
+## 0.7.0 (January 07, 2019)
+  - group all vendor protos together
+
 ## 0.6.1 (December 16, 2018)
   - remove override
 

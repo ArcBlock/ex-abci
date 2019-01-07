@@ -1,7 +1,7 @@
 defmodule ExAbciTest.Fixture do
   @moduledoc false
 
-  alias Types.{
+  alias ForgeVendor.{
     Header,
     Request,
     RequestBeginBlock,
