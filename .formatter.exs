@@ -15,6 +15,7 @@
     socket: 2,
     socket: 3,
     field: 3,
-    oneof: 2
+    oneof: 2,
+    rpc: 3
   ]
 ]
