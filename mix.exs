@@ -27,8 +27,7 @@ defmodule ExAbci.MixProject do
       docs: [
         main: "ExAbci",
         extras: ["README.md"]
-      ],
-      dialyzer: [plt_add_apps: [:ranch]]
+      ]
     ]
   end
 
