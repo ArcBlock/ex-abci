@@ -1,3 +1,6 @@
+## 0.7.1 (January 08, 2019)
+  - Update two examples to make sure them compilable
+
 ## 0.7.0 (January 07, 2019)
   - group all vendor protos together
 
