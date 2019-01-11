@@ -12,8 +12,7 @@ defmodule ExAbci.Server do
     ResponseBeginBlock,
     ResponseCommit,
     ResponseEndBlock,
-    ResponseInitChain,
-    ResponseQuery
+    ResponseInitChain
   }
 
   def handle_init_chain(request) do
@@ -80,11 +79,5 @@ defmodule ExAbci.Server do
     Logger.debug(fn -> "Commit block: #{inspect(request)}" end)
 
     ResponseCommit.new(data: <<>>)
-  end
-
-  def handle_query(request) do
-    Logger.debug(fn -> "Query: #{inspect(request)}" end)
-
-    ResponseQuery.new(code: 500)
   end
 end
