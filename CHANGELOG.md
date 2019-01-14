@@ -1,3 +1,6 @@
+## 0.7.3 (January 14, 2019)
+  - Fix ranch warning
+
 ## 0.7.1 (January 08, 2019)
   - Update two examples to make sure them compilable
 
