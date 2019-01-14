@@ -133,13 +133,10 @@ defmodule ExAbci.Listener do
   @spec gen_ranch_args(module()) :: term()
   def gen_ranch_args(mod) do
     opts =
-      Application.get_env(:ex_abci, :ranch_opts,
-        port: 26658,
+      Application.get_env(:ex_abci, :ranch_opts, %{
         max_connections: 3,
-        buffer: 65535,
-        sndbuf: 65535,
-        recbuf: 65535
-      )
+        socket_opts: [port: 26658, buffer: 65535, sndbuf: 65535, recbuf: 65535]
+      })
 
     [mod, :ranch_tcp, opts, ExAbci.Listener, [mod]]
   end
