@@ -28,26 +28,118 @@ message ProofOp {
 // Proof is Merkle proof defined by the list of ProofOps
 message Proof { repeated ProofOp ops = 1; }
 
-// ================================================================
-// import "github.com/tendermint/tendermint/rpc/grpc/proto";
-// NOTE: gogoproto related attributes on each field is removed, since we are
-// using elixir
-// ================================================================
-message RequestPing {}
+//----------------------------------------
+// Misc.
 
-message RequestBroadcastTx { bytes tx = 1; }
+// BlockSize contains limits on the block size.
+message BlockSizeParams {
+  // Note: must be greater than 0
+  int64 max_bytes = 1;
+  // Note: must be greater or equal to -1
+  int64 max_gas = 2;
+}
+
+// EvidenceParams contains limits on the evidence.
+message EvidenceParams {
+  // Note: must be greater than 0
+  int64 max_age = 1;
+}
+
+// ValidatorParams contains limits on validators.
+message ValidatorParams { repeated string pub_key_types = 1; }
+
+// ConsensusParams contains all consensus-relevant parameters
+// that can be adjusted by the abci app
+message ConsensusParams {
+  BlockSizeParams block_size = 1;
+  EvidenceParams evidence = 2;
+  ValidatorParams validator = 3;
+}
+
+message LastCommitInfo {
+  int32 round = 1;
+  repeated VoteInfo votes = 2;
+}
 
 //----------------------------------------
-// Response types
+// Blockchain Types
 
-message ResponsePing {}
+message Version {
+  uint64 Block = 1;
+  uint64 App = 2;
+}
 
-message ResponseBroadcastTx {
-  ResponseCheckTx check_tx = 1;
-  ResponseDeliverTx deliver_tx = 2;
+message PartSetHeader {
+  int32 total = 1;
+  bytes hash = 2;
+}
+
+message BlockID {
+  bytes hash = 1;
+  PartSetHeader parts_header = 2;
 }
 
 
+// Validator
+message Validator {
+  bytes address = 1;
+  // PubKey pub_key = 2;
+  int64 power = 3;
+}
+
+message PubKey {
+  string type = 1;
+  bytes data = 2;
+}
+
+// ValidatorUpdate
+message ValidatorUpdate {
+  PubKey pub_key = 1;
+  int64 power = 2;
+}
+
+// VoteInfo
+message VoteInfo {
+  Validator validator = 1;
+  bool signed_last_block = 2;
+}
+
+message Evidence {
+  string type = 1;
+  Validator validator = 2;
+  int64 height = 3;
+  google.protobuf.Timestamp time = 4;
+  int64 total_voting_power = 5;
+}
+
+message Header {
+  // basic block info
+  Version version = 1;
+  string chain_id = 2;
+  int64 height = 3;
+  google.protobuf.Timestamp time = 4;
+  int64 num_txs = 5;
+  int64 total_txs = 6;
+
+  // prev block info
+  BlockID last_block_id = 7;
+
+  // hashes of block data
+  bytes last_commit_hash = 8; // commit from validators from the last block
+  bytes data_hash = 9;        // transactions
+
+  // hashes from the app output from the prev block
+  bytes validators_hash = 10;      // validators for the current block
+  bytes next_validators_hash = 11; // validators for the next block
+  bytes consensus_hash = 12;       // consensus params for current block
+  bytes app_hash = 13;             // state after txs from the previous block
+  bytes last_results_hash =
+      14; // root hash of all results from the txs from the previous block
+
+  // consensus info
+  bytes evidence_hash = 15;    // evidence included in the block
+  bytes proposer_address = 16; // original proposer of the block
+}
 
 // ================================================================
 // import "github.com/tendermint/tendermint/abci/types/proto";
@@ -56,22 +148,6 @@ message ResponseBroadcastTx {
 // ================================================================
 //----------------------------------------
 // Request types
-
-message Request {
-  oneof value {
-    RequestEcho echo = 2;
-    RequestFlush flush = 3;
-    RequestInfo info = 4;
-    RequestSetOption set_option = 5;
-    RequestInitChain init_chain = 6;
-    RequestQuery query = 7;
-    RequestBeginBlock begin_block = 8;
-    RequestCheckTx check_tx = 9;
-    RequestDeliverTx deliver_tx = 19;
-    RequestEndBlock end_block = 11;
-    RequestCommit commit = 12;
-  }
-}
 
 message RequestEcho { string message = 1; }
 
@@ -119,25 +195,23 @@ message RequestEndBlock { int64 height = 1; }
 
 message RequestCommit {}
 
-//----------------------------------------
-// Response types
-
-message Response {
+message Request {
   oneof value {
-    ResponseException exception = 1;
-    ResponseEcho echo = 2;
-    ResponseFlush flush = 3;
-    ResponseInfo info = 4;
-    ResponseSetOption set_option = 5;
-    ResponseInitChain init_chain = 6;
-    ResponseQuery query = 7;
-    ResponseBeginBlock begin_block = 8;
-    ResponseCheckTx check_tx = 9;
-    ResponseDeliverTx deliver_tx = 10;
-    ResponseEndBlock end_block = 11;
-    ResponseCommit commit = 12;
+    RequestEcho echo = 2;
+    RequestFlush flush = 3;
+    RequestInfo info = 4;
+    RequestSetOption set_option = 5;
+    RequestInitChain init_chain = 6;
+    RequestQuery query = 7;
+    RequestBeginBlock begin_block = 8;
+    RequestCheckTx check_tx = 9;
+    RequestDeliverTx deliver_tx = 19;
+    RequestEndBlock end_block = 11;
+    RequestCommit commit = 12;
   }
 }
+//----------------------------------------
+// Response types
 
 // nondeterministic
 message ResponseException { string error = 1; }
@@ -182,9 +256,7 @@ message ResponseQuery {
   string codespace = 10;
 }
 
-message ResponseBeginBlock {
-  repeated KVPair tags = 1;
-}
+message ResponseBeginBlock { repeated KVPair tags = 1; }
 
 message ResponseCheckTx {
   uint32 code = 1;
@@ -219,116 +291,40 @@ message ResponseCommit {
   bytes data = 2;
 }
 
-//----------------------------------------
-// Misc.
-
-// ConsensusParams contains all consensus-relevant parameters
-// that can be adjusted by the abci app
-message ConsensusParams {
-  BlockSizeParams block_size = 1;
-  EvidenceParams evidence = 2;
-  ValidatorParams validator = 3;
+message Response {
+  oneof value {
+    ResponseException exception = 1;
+    ResponseEcho echo = 2;
+    ResponseFlush flush = 3;
+    ResponseInfo info = 4;
+    ResponseSetOption set_option = 5;
+    ResponseInitChain init_chain = 6;
+    ResponseQuery query = 7;
+    ResponseBeginBlock begin_block = 8;
+    ResponseCheckTx check_tx = 9;
+    ResponseDeliverTx deliver_tx = 10;
+    ResponseEndBlock end_block = 11;
+    ResponseCommit commit = 12;
+  }
 }
 
-// BlockSize contains limits on the block size.
-message BlockSizeParams {
-  // Note: must be greater than 0
-  int64 max_bytes = 1;
-  // Note: must be greater or equal to -1
-  int64 max_gas = 2;
-}
+// ================================================================
+// import "github.com/tendermint/tendermint/rpc/grpc/proto";
+// NOTE: gogoproto related attributes on each field is removed, since we are
+// using elixir
+// ================================================================
+message RequestPing {}
 
-// EvidenceParams contains limits on the evidence.
-message EvidenceParams {
-  // Note: must be greater than 0
-  int64 max_age = 1;
-}
-
-// ValidatorParams contains limits on validators.
-message ValidatorParams { repeated string pub_key_types = 1; }
-
-message LastCommitInfo {
-  int32 round = 1;
-  repeated VoteInfo votes = 2;
-}
+message RequestBroadcastTx { bytes tx = 1; }
 
 //----------------------------------------
-// Blockchain Types
+// Response types
 
-message Header {
-  // basic block info
-  Version version = 1;
-  string chain_id = 2;
-  int64 height = 3;
-  google.protobuf.Timestamp time = 4;
-  int64 num_txs = 5;
-  int64 total_txs = 6;
+message ResponsePing {}
 
-  // prev block info
-  BlockID last_block_id = 7;
-
-  // hashes of block data
-  bytes last_commit_hash = 8; // commit from validators from the last block
-  bytes data_hash = 9;        // transactions
-
-  // hashes from the app output from the prev block
-  bytes validators_hash = 10;      // validators for the current block
-  bytes next_validators_hash = 11; // validators for the next block
-  bytes consensus_hash = 12;       // consensus params for current block
-  bytes app_hash = 13;             // state after txs from the previous block
-  bytes last_results_hash =
-      14; // root hash of all results from the txs from the previous block
-
-  // consensus info
-  bytes evidence_hash = 15;    // evidence included in the block
-  bytes proposer_address = 16; // original proposer of the block
-}
-
-message Version {
-  uint64 Block = 1;
-  uint64 App = 2;
-}
-
-message BlockID {
-  bytes hash = 1;
-  PartSetHeader parts_header = 2;
-}
-
-message PartSetHeader {
-  int32 total = 1;
-  bytes hash = 2;
-}
-
-// Validator
-message Validator {
-  bytes address = 1;
-  // PubKey pub_key = 2;
-  int64 power = 3;
-}
-
-// ValidatorUpdate
-message ValidatorUpdate {
-  PubKey pub_key = 1;
-  int64 power = 2;
-}
-
-// VoteInfo
-message VoteInfo {
-  Validator validator = 1;
-  bool signed_last_block = 2;
-}
-
-message PubKey {
-  string type = 1;
-  bytes data = 2;
-}
-
-message Evidence {
-  string type = 1;
-  Validator validator = 2;
-  int64 height = 3;
-  google.protobuf.Timestamp time = 4;
-  int64 total_voting_power = 5;
+message ResponseBroadcastTx {
+  ResponseCheckTx check_tx = 1;
+  ResponseDeliverTx deliver_tx = 2;
 }
 
 //----------------------------------------
