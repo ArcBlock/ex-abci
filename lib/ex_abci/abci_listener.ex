@@ -42,11 +42,12 @@ defmodule ExAbci.Listener do
 
   def handle_cast(_msg, state), do: {:noreply, state}
 
-  def handle_info({:tcp, socket, data}, %{buffered: buffered} = state) do
+  def handle_info({:tcp, socket, data}, %{buffered: buffered, transport: transport} = state) do
     Logger.debug(fn -> "Received data from #{inspect(socket)}" end)
 
     {requests, rest} = unpack_requests(<<buffered::binary, data::binary>>)
     new_state = handle_requests(requests, %{state | buffered: rest})
+    _ = transport.setopts(socket, active: :once)
     {:noreply, new_state}
   end
 
@@ -123,7 +124,6 @@ defmodule ExAbci.Listener do
     response = Response.encode(data)
     length = Varint.encode_zigzag(byte_size(response))
     full_response = <<length::binary, response::binary>>
-    _ = transport.setopts(socket, active: :once)
     :ok = transport.send(socket, full_response)
     :ok
   end
