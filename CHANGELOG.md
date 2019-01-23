@@ -1,3 +1,6 @@
+## 0.7.5 (January 22, 2019)
+  - set socket active to once when we are done processing with request
+
 ## 0.7.4 (January 22, 2019)
   - reorder vendor proto so that the dependency is clear.
 
