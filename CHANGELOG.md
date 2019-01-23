@@ -1,3 +1,6 @@
+## 0.7.4 (January 22, 2019)
+  - reorder vendor proto so that the dependency is clear.
+
 ## 0.7.3 (January 14, 2019)
   - Fix ranch warning
 
