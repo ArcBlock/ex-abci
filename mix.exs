@@ -46,10 +46,7 @@ defmodule ExAbci.MixProject do
   defp deps do
     [
       # Normal depedencies
-      {:cowlib, "~> 2.6"},
-      {:google_protos, "~> 0.1"},
-      {:grpc, "~> 0.3"},
-      {:ranch, "~> 1.6"},
+      {:ex_abci_proto, "~> 0.7.6"},
 
       # dev & test
       {:credo, "~> 0.8", only: [:dev, :test]},

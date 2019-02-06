@@ -4,7 +4,7 @@ defmodule ExAbciTest.Listener do
   alias ExAbci.Listener
   alias ExAbciTest.Fixture
 
-  alias ForgeVendor.Request
+  alias AbciVendor.Request
 
   test "shall decode messages" do
     messages = [

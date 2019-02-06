@@ -77,19 +77,6 @@ rebuild-deps:
 	@rm -rf mix.lock;
 	@make dep
 
-# warning: if you rebuild-proto, please remove the grpc definition in the compiled file. Those parts are not used. If we keep them, we need to include the grpc library, which is unnecessary.
-rebuild-proto:
-	@rm -rf ./lib/abci_protos/*.pb.ex
-	@protoc -I ./lib/abci_protos --elixir_out=plugins=grpc:./lib/abci_protos ./lib/abci_protos/*.proto
-	@echo New protobuf files created for tendermint ABCI.
-
-rebuild-proto-old:
-	# @protoc -I ./vendors/github.com/tendermint/tendermint/abci/types -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/abci/types/types.proto
-	# @protoc -I ./vendors/github.com/tendermint/tendermint/rpc -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/rpc/grpc/types.proto
-	# @protoc -I ./vendors/github.com/tendermint/tendermint/libs/ -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/libs/common/types.proto
-	# @protoc -I ./vendors/github.com/tendermint/tendermint/crypto -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/tendermint/tendermint/crypto/merkle/merkle.proto
-	# @protoc -I ./vendors/github.com/gogo/protobuf/protobuf/google/protobuf -I ./vendors --elixir_out=plugins=grpc:./lib/abci_protos vendors/github.com/gogo/protobuf/protobuf/google/protobuf/timestamp.proto
-	@echo New protobuf files created for tendermint ABCI.
 
 include .makefiles/*.mk
 
