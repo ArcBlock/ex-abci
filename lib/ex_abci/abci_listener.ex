@@ -6,7 +6,7 @@ defmodule ExAbci.Listener do
 
   require Logger
 
-  alias ForgeVendor.{Request, Response}
+  alias AbciVendor.{Request, Response}
   alias ExAbci.{Server, Varint}
 
   @behaviour :ranch_protocol

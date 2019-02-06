@@ -28,7 +28,7 @@ defmodule Counter.Server do
   def handle_call({:handle_info, request}, _from, state) do
     Logger.info("Tendermint version: #{request.version}")
 
-    response = %ForgeVendor.ResponseInfo{
+    response = %AbciVendor.ResponseInfo{
       data: "Elixir counter app",
       version: "1.0.0",
       app_version: 1,
@@ -40,7 +40,7 @@ defmodule Counter.Server do
   end
 
   def handle_call({:handle_check_tx, request}, _from, %{counter: counter} = state) do
-    %ForgeVendor.RequestCheckTx{tx: tx} = request
+    %AbciVendor.RequestCheckTx{tx: tx} = request
     Logger.debug(fn -> "Check tx: #{inspect(tx)}" end)
 
     response = struct(Abci.ResponseCheckTx, check_tx(tx, counter))
@@ -48,7 +48,7 @@ defmodule Counter.Server do
   end
 
   def handle_call({:handle_deliver_tx, request}, _from, %{counter: counter} = state) do
-    %ForgeVendor.RequestDeliverTx{tx: tx} = request
+    %AbciVendor.RequestDeliverTx{tx: tx} = request
     Logger.debug(fn -> "Deliver tx: #{inspect(tx)}" end)
 
     response = struct(Abci.ResponseDeliverTx, check_tx(tx, counter))

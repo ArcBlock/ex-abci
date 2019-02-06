@@ -89,7 +89,7 @@ defmodule SimpleChain.Server do
       }"
     )
 
-    response = %ForgeVendor.ResponseInfo{
+    response = %AbciVendor.ResponseInfo{
       data: "Elixir SimpleChain",
       version: "1.0.0",
       last_block_height: last_block,
@@ -100,7 +100,7 @@ defmodule SimpleChain.Server do
   end
 
   def handle_call({:handle_check_tx, request}, _from, %{trie: trie} = state) do
-    %ForgeVendor.RequestCheckTx{tx: data} = request
+    %AbciVendor.RequestCheckTx{tx: data} = request
     tx = data |> Base.decode64!() |> Transaction.decode()
 
     Logger.debug(fn -> "Check tx: #{inspect(tx)}" end)
@@ -110,7 +110,7 @@ defmodule SimpleChain.Server do
   end
 
   def handle_call({:handle_deliver_tx, request}, _from, %{trie: trie} = state) do
-    %ForgeVendor.RequestDeliverTx{tx: data} = request
+    %AbciVendor.RequestDeliverTx{tx: data} = request
     tx = data |> Base.decode64!() |> Transaction.decode()
 
     Logger.debug(fn -> "Deliver tx: #{inspect(tx)}" end)
@@ -132,7 +132,7 @@ defmodule SimpleChain.Server do
 
     Mpt.update_block(trie, request.height)
 
-    response = %ForgeVendor.ResponseEndBlock{
+    response = %AbciVendor.ResponseEndBlock{
       validator_updates: [],
       tags: []
     }
@@ -143,7 +143,7 @@ defmodule SimpleChain.Server do
   def handle_call({:handle_commit, request}, _from, %{trie: trie} = state) do
     Logger.debug(fn -> "Commit block: #{inspect(request)}" end)
 
-    response = %ForgeVendor.ResponseCommit{
+    response = %AbciVendor.ResponseCommit{
       data: Mpt.get_app_hash(trie)
     }
 
