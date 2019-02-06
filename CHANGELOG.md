@@ -1,3 +1,6 @@
+## 0.7.6 (February 06, 2019)
+  - use ex_abci_proto
+
 ## 0.7.5 (January 22, 2019)
   - set socket active to once when we are done processing with request
 
