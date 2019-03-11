@@ -46,7 +46,8 @@ defmodule ExAbci.MixProject do
   defp deps do
     [
       # Normal depedencies
-      {:ex_abci_proto, "~> 0.7.6"},
+      # {:ex_abci_proto, "~> 0.7.6"},
+      {:ex_abci_proto, github: "ArcBlock/ex-abci-proto", branch: "f/t/update-protobuf-for-test", override: true},
 
       # dev & test
       {:credo, "~> 0.8", only: [:dev, :test]},
