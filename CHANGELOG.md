@@ -1,3 +1,6 @@
+## 0.8.0 (March 23, 2019)
+  - upgrade ex_abci_proto to 0.8
+
 ## 0.7.6 (February 06, 2019)
   - use ex_abci_proto
 

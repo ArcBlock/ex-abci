@@ -46,7 +46,7 @@ defmodule ExAbci.MixProject do
   defp deps do
     [
       # Normal depedencies
-      {:ex_abci_proto, "~> 0.7.6"},
+      {:ex_abci_proto, "~> 0.8"},
 
       # dev & test
       {:credo, "~> 0.8", only: [:dev, :test]},

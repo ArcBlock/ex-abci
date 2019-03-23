@@ -3,6 +3,7 @@
   "cowboy": {:hex, :cowboy, "2.5.0", "4ef3ae066ee10fe01ea3272edc8f024347a0d3eb95f6fbb9aed556dacbfc1337", [:rebar3], [{:cowlib, "~> 2.6.0", [hex: :cowlib, repo: "hexpm", optional: false]}, {:ranch, "~> 1.6.2", [hex: :ranch, repo: "hexpm", optional: false]}], "hexpm"},
   "cowlib": {:hex, :cowlib, "2.6.0", "8aa629f81a0fc189f261dc98a42243fa842625feea3c7ec56c48f4ccdb55490f", [:rebar3], [], "hexpm"},
   "eleveldb": {:hex, :eleveldb, "2.2.20", "1fff63a5055bbf4bf821f797ef76065882b193f5e8095f95fcd9287187773b58", [:rebar3], [], "hexpm"},
+  "ex_abci_proto": {:hex, :ex_abci_proto, "0.7.6", "6f6d63ebcf1a8deeb57a34c1fd9422d78e40672b2b8bb4dc4d4a2b1a25b85baf", [:mix], [{:google_protos, "~> 0.1", [hex: :google_protos, repo: "hexpm", optional: false]}, {:grpc, "~> 0.3", [hex: :grpc, repo: "hexpm", optional: false]}], "hexpm"},
   "ex_rlp": {:hex, :ex_rlp, "0.3.1", "190554f7b26f79734fc5a772241eec14a71b2e83576e43f451479feb017013e9", [:mix], [], "hexpm"},
   "exleveldb": {:hex, :exleveldb, "0.14.0", "8e9353bbce38482d6971d254c6b98ceb50f3f179c94732b5d17db1be426fca18", [:mix], [{:eleveldb, "~> 2.2.20", [hex: :eleveldb, repo: "hexpm", optional: false]}], "hexpm"},
   "google_protos": {:hex, :google_protos, "0.1.0", "c6b9e12092d17571b093d4156d004494ca143b65dbbcbfc3ffff463ea03467c0", [:mix], [{:protobuf, "~> 0.5", [hex: :protobuf, repo: "hexpm", optional: false]}], "hexpm"},
