@@ -1,6 +1,0 @@
-[submodule "vendors/github.com/tendermint/tendermint"]
-	path = vendors/github.com/tendermint/tendermint
-	url = https://github.com/tendermint/tendermint
-[submodule "vendors/github.com/gogo/protobuf"]
-	path = vendors/github.com/gogo/protobuf
-	url = https://github.com/gogo/protobuf
