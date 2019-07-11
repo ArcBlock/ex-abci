@@ -133,8 +133,7 @@ defmodule SimpleChain.Server do
     Mpt.update_block(trie, request.height)
 
     response = %AbciVendor.ResponseEndBlock{
-      validator_updates: [],
-      tags: []
+      validator_updates: []
     }
 
     {:reply, response, state}
@@ -173,8 +172,7 @@ defmodule SimpleChain.Server do
           info: "tx not signed correctly or not match with current state",
           log: "failed to verify tx",
           gas_wanted: 0,
-          gas_used: 0,
-          tags: []
+          gas_used: 0
         }
 
       _ ->
@@ -184,8 +182,7 @@ defmodule SimpleChain.Server do
           info: "tx verified",
           log: "tx verified",
           gas_wanted: 0,
-          gas_used: 0,
-          tags: []
+          gas_used: 0
         }
     end
   end

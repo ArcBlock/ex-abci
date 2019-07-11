@@ -66,13 +66,13 @@ defmodule ExAbci.Server do
       }"
     end)
 
-    ResponseBeginBlock.new(tags: [])
+    ResponseBeginBlock.new()
   end
 
   def handle_end_block(request) do
     Logger.debug(fn -> "End block: #{inspect(request)}" end)
 
-    ResponseEndBlock.new(validator_updates: [], tags: [])
+    ResponseEndBlock.new(validator_updates: [])
   end
 
   def handle_commit(request) do

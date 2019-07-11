@@ -74,8 +74,7 @@ defmodule Counter.Server do
           info: "tx doesn't match with current counter",
           log: "failed to parse tx or tx doesn't match with current counter",
           gas_wanted: 0,
-          gas_used: 0,
-          tags: []
+          gas_used: 0
         }
 
       _ ->
@@ -85,8 +84,7 @@ defmodule Counter.Server do
           info: "tx verified",
           log: "tx verified",
           gas_wanted: 0,
-          gas_used: 0,
-          tags: []
+          gas_used: 0
         }
     end
   rescue
@@ -97,8 +95,7 @@ defmodule Counter.Server do
         info: "failed to parse tx",
         log: "failed to parse tx or tx doesn't match with current counter",
         gas_wanted: 0,
-        gas_used: 0,
-        tags: []
+        gas_used: 0
       }
   end
 end
